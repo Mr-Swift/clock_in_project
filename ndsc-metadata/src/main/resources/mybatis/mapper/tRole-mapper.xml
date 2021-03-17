@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njusc.npm.metadata.dao.mapper.TRoleDao">
+
+    <select id="findRoleList" resultType="com.njusc.npm.metadata.entity.TRoleEntity">
+        select
+        a.id id,
+        a.role_name roleName,
+        a.remark remark,
+        a.INSERT_DATE insertTime,
+        a.insert_user insertUser,
+        a.isdel
+        from TAB_ROLE a
+        where a.isdel=0
+    </select>
+
+    <select id="find" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TRoleEntity">
+        <include refid="findSql"/>
+    </select>
+
+
+    <select id="findAll" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TRoleEntity">
+        <include refid="findSql"/>
+        order by a.INSERT_DATE desc
+    </select>
+
+    <select id="findList" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TRoleEntity">
+        select
+        a.id id,
+        a.role_name roleName,
+        a.remark remark,
+        a.INSERT_DATE insertTime,
+        a.insert_user insertUser,
+        a.isdel
+        from TAB_ROLE a
+        where a.isdel=0
+        <if test="null != id and '' != id">
+            and a.id = #{id}
+        </if>
+        <if test="null != roleName and '' != roleName">
+            and  a.role_name like CONCAT('%',CONCAT(#{roleName},'%'))
+        </if>
+        <if test="null != remark and '' != remark">
+            and a.remark = #{remark}
+        </if>
+        order by a.INSERT_DATE desc
+    </select>
+
+    <insert id="save" parameterType="com.njusc.npm.metadata.entity.TRoleEntity">
+        insert
+        <include refid="saveSql"/>
+        values (
+        #{ id},
+        #{ roleName},
+        #{ remark},
+        #{ insertTime},
+        #{ insertUser},
+        #{isdel}
+        )
+    </insert>
+
+    <insert id="saveAll" parameterType="java.util.List">
+        insert
+        <include refid="saveSql"/>
+        values
+        <foreach collection="list" item="data" separator=",">
+            (
+            #{data.id},
+            #{data.roleName},
+            #{data.remark},
+            #{data.insertTime},
+            #{data.insertUser},
+            #{data.isdel}
+            )
+        </foreach>
+
+    </insert>
+
+    <update id="updateAll" parameterType="java.util.List">
+
+        <foreach collection="list" item="data" separator=";">
+            update TAB_ROLE set
+            role_name = #{data.roleName},
+            remark = #{data.remark},
+            isdel=#{data.isdel}
+            where id = #{data.id}
+        </foreach>
+
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        <include refid="deleteSql"/>
+        where
+        <!-- 单个参数，使用内置对象判断 -->
+        <if test="null != _parameter and '' != _parameter">
+            id = #{id}
+        </if>
+    </delete>
+
+    <delete id="deleteAll" parameterType="java.lang.String">
+
+        <include refid="deleteSql"/>
+        where
+        id in
+        <foreach close=")" collection="list" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <update id="update" parameterType="com.njusc.npm.metadata.entity.TRoleEntity">
+    update  TAB_ROLE
+    set
+                                    role_name = #{roleName},
+                                remark = #{remark},
+                                                   isdel=#{isdel}
+    where  id = #{id}
+</update>
+
+    <sql id="saveSql">
+     into TAB_ROLE
+    (
+                        id,
+                                 role_name,
+                                 remark,
+                                             INSERT_DATE,
+                                 insert_user,
+                   isdel
+    )
+</sql>
+
+    <sql id="deleteSql">
+    update TAB_ROLE set isdel=1
+</sql>
+
+    <sql id="findSql">
+        select
+        a.id id,
+        a.role_name roleName,
+        a.remark remark,
+        a.INSERT_DATE insertTime,
+        a.insert_user insertUser,
+        a.isdel
+        from TAB_ROLE a
+        where a.isdel=0
+        <if test="null != id and '' != id">
+            and a.id = #{id}
+        </if>
+        <if test="null != roleName and '' != roleName">
+            and  a.role_name = #{roleName}
+        </if>
+        <if test="null != remark and '' != remark">
+            and a.remark = #{remark}
+        </if>
+    </sql>
+
+    <select id="findUpdate"  resultType="com.njusc.npm.metadata.entity.TRoleEntity">
+
+         select
+        a.id id,
+        a.role_name roleName,
+        a.remark remark,
+        a.INSERT_DATE insertTime,
+        a.insert_user insertUser,
+        a.isdel
+        from TAB_ROLE a
+        where a.isdel=0
+    </select>
+
+</mapper>

@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njusc.npm.metadata.dao.mapper.TLeaveDao">
+    <!--    筛选出所有的请假类型（用于下拉框）-->
+    <select id="selectAllLeaveType" resultType="com.njusc.npm.metadata.entity.TBasecodeEntity">
+        <include refid="selectAllLeaveTypeSql"/>
+    </select>
+
+    <!--    检索当前登录账号所有的请假信息，按插入时间倒序排列-->
+    <select id="selectAllApplicationData" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TLeaveEntity">
+        <include refid="selectAllApplicationDataSql"/>
+    </select>
+
+    <select id="selectAllReviewData" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TLeaveEntity">
+        <include refid="selectAllReviewDataSql"/>
+    </select>
+
+    <select id="findLeaveApplication" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TLeaveEntity">
+        <include refid="findLeaveApplicationSql"></include>
+    </select>
+
+    <sql id="findLeaveApplicationSql">
+        SELECT a.ID AS id,
+        b.USER_NAME AS leaveUser,
+        a.LEAVE_START_DATE AS leaveStartDate,
+        a.LEAVE_END_DATE AS leaveEndDate,
+        c.DATA_VALUE1 AS leaveType,
+        a.LEAVE_REASON AS leaveReason,
+        e.USER_NAME AS insertUser,
+        a.INSERT_DATE AS insertDate,
+        d.USER_NAME AS checkUser,
+        a.CHECK_DATE AS checkDate,
+        a.CHECK_STATUS AS checkStatus,
+        CASE a.CHECK_STATUS WHEN 1 then '已审批' WHEN 0 THEN '未审批' END AS checkStatusStr,
+        a.ISDEL AS isdel
+        FROM TAB_LEAVE a
+        LEFT JOIN TAB_USER b ON a.LEAVE_USER = b.ID
+        LEFT JOIN TAB_BASECODE c ON a.LEAVE_TYPE = c.ID
+        LEFT JOIN TAB_USER d ON a.CHECK_USER = d.ID
+        LEFT JOIN TAB_USER e ON a.INSERT_USER = e.ID
+        WHERE a.ISDEL!=1 AND b.ISDEL!=1 AND c.ISDEL!=1
+        AND c.BASE_TYPE='LEAVE'
+        AND c.BASE_TYPE_NAME='请假类型'
+        AND a.LEAVE_USER=#{userId}
+        <if test=" '' != leaveType and null !=leaveType">
+            AND a.LEAVE_TYPE=#{leaveType}
+        </if>
+        <if test=" '' != checkStatus and null != checkStatus">
+            AND a.CHECK_STATUS=#{checkStatus}
+        </if>
+        <if test="null!=id and ''!=id">
+            AND a.Id=#{id}
+        </if>
+        ORDER BY a.INSERT_DATE DESC
+    </sql>
+
+    <sql id="selectAllApplicationDataSql">
+        SELECT a.ID AS id,
+        b.USER_NAME AS leaveUser,
+        a.LEAVE_START_DATE AS leaveStartDate,
+        a.LEAVE_END_DATE AS leaveEndDate,
+        c.DATA_VALUE1 AS leaveType,
+        a.LEAVE_REASON AS leaveReason,
+        e.USER_NAME AS insertUser,
+        a.INSERT_DATE AS insertDate,
+        d.USER_NAME AS checkUser,
+        a.CHECK_DATE AS checkDate,
+        a.CHECK_STATUS AS checkStatus,
+        CASE a.CHECK_STATUS WHEN 1 then '已审批' WHEN 0 THEN '未审批' END AS checkStatusStr,
+        a.ISDEL AS isdel
+        FROM TAB_LEAVE a
+        LEFT JOIN TAB_USER b ON a.LEAVE_USER = b.ID
+        LEFT JOIN TAB_BASECODE c ON a.LEAVE_TYPE = c.ID
+        LEFT JOIN TAB_USER d ON a.CHECK_USER = d.ID
+        LEFT JOIN TAB_USER e ON a.INSERT_USER = e.ID
+        WHERE a.ISDEL!=1 AND b.ISDEL!=1 AND c.ISDEL!=1
+        AND c.BASE_TYPE='LEAVE'
+        AND c.BASE_TYPE_NAME='请假类型'
+        AND a.LEAVE_USER=#{userId}
+        <if test=" '' != leaveType and null !=leaveType">
+            AND a.LEAVE_TYPE=#{leaveType}
+        </if>
+        <if test=" '' != checkStatus and null != checkStatus">
+            AND a.CHECK_STATUS=#{checkStatus}
+        </if>
+        ORDER BY a.INSERT_DATE DESC
+    </sql>
+
+
+    <sql id="selectAllReviewDataSql">
+        SELECT a.ID AS id,
+        b.USER_NAME AS leaveUser,
+        a.LEAVE_START_DATE AS leaveStartDate,
+        a.LEAVE_END_DATE AS leaveEndDate,
+        c.DATA_VALUE1 AS leaveType,
+        a.LEAVE_REASON AS leaveReason,
+        e.USER_NAME AS insertUser,
+        a.INSERT_DATE AS insertDate,
+        d.USER_NAME AS checkUser,
+        a.CHECK_DATE AS checkDate,
+        CASE a.CHECK_STATUS WHEN 1 then '已审批' WHEN 0 THEN '未审批' END AS checkStatusStr,
+        a.ISDEL AS isdel
+        FROM TAB_LEAVE a
+        LEFT JOIN TAB_USER b ON a.LEAVE_USER = b.ID
+        LEFT JOIN TAB_BASECODE c ON a.LEAVE_TYPE = c.ID
+        LEFT JOIN TAB_USER d ON a.CHECK_USER = d.ID
+        LEFT JOIN TAB_USER e ON a.INSERT_USER = e.ID
+        WHERE a.ISDEL!=1 AND b.ISDEL!=1 AND c.ISDEL!=1
+        AND c.BASE_TYPE='LEAVE'
+        AND c.BASE_TYPE_NAME='请假类型'
+        and a.CHECK_STATUS!=1
+        <if test=" '' !=leaveUser and null !=leaveUser">
+            b.USER_NAME=#{leaveUser}
+        </if>
+        <if test=" '' != checkUser and null !=checkUser">
+            d.USER_NAME=#{checkUser}
+        </if>
+        <if test=" '' != leaveType and null !=leaveType">
+            AND a.LEAVE_TYPE=#{LEAVEtYPE}
+        </if>
+        <if test=" '' != checkStatus and null != checkStatus">
+            AND a.CHECK_STATUS=#{checkStatus}
+        </if>
+        ORDER BY a.INSERT_DATE DESC
+    </sql>
+
+
+
+    <sql id="selectAllLeaveTypeSql">
+        SELECT ID             as id,
+               BASE_TYPE      as baseType,
+               BASE_TYPE_NAME as baseTypeName,
+               DATA_KEY       as dataKey,
+               DATA_VALUE1    as dataValue1,
+               DATA_VALUE2    as dataValue2,
+               DATA_VALUE3    as dataValue3,
+               ISDEL          as isdel,
+               INSERT_DATE    as insertDate,
+               INSERT_USER    as insertUser,
+               PARENT_ID      as parentId
+        FROM TAB_BASECODE
+        WHERE ISDEL != 1
+  AND BASE_TYPE = 'LEAVE'
+  AND BASE_TYPE_NAME = '请假类型'
+        ORDER BY DATA_KEY ASC
+    </sql>
+
+
+    <delete id="delete" parameterType="java.lang.String">
+        <include refid="deleteSql"></include>
+    </delete>
+
+    <sql id="deleteSql">
+        UPDATE TAB_LEAVE SET ISDEL=1 WHERE ID=#{id};
+    </sql>
+
+    <insert id="save" parameterType="com.njusc.npm.metadata.entity.TLeaveEntity">
+        <include refid="saveSql"></include>
+    </insert>
+
+    <sql id="saveSql">
+        INSERT INTO TAB_LEAVE
+        (ID, LEAVE_USER, LEAVE_START_DATE, LEAVE_END_DATE, LEAVE_TYPE, LEAVE_REASON, INSERT_USER)
+        VALUES
+        (
+         #{id},
+         #{leaveUser},
+         #{leaveStartDate},
+         #{leaveEndDate},
+         #{leaveType},
+         #{leaveReason},
+         #{insertUser}
+        )
+    </sql>
+
+    <update id="update" parameterType="com.njusc.npm.metadata.entity.TLeaveEntity">
+        <include refid="updateSql"></include>
+    </update>
+
+    <sql id="updateSql">
+        UPDATE TAB_LEAVE SET
+        LEAVE_START_DATE=#{leaveStartDate},
+        LEAVE_END_DATE=#{leaveEndDate},
+        LEAVE_TYPE=#{leaveType},
+        LEAVE_REASON=#{leaveReason},
+        INSERT_USER=#{insertDate},
+        INSERT_DATE=#{insertDate},
+        CHECK_STATUS=0
+        WHERE ID=#{id}
+    </sql>
+
+    <update id="check" parameterType="java.util.Map">
+        <include refid="checkSql"></include>
+    </update>
+
+    <sql id="checkSql">
+        UPDATE TAB_LEAVE SET
+            CHECK_USER=#{checkUser},
+            CHECK_DATE=#{checkDate},
+            CHECK_STATUS=1
+        WHERE ID=#{id}
+    </sql>
+
+</mapper>

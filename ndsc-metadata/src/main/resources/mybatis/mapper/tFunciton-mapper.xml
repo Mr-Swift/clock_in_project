@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njusc.npm.metadata.dao.mapper.TFuncitonDao">
+    <select id="find" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TFuncitonEntity">
+        <include refid="findSql"/>
+    </select>
+
+    <select id="findParentFunciton" resultType="com.njusc.npm.metadata.entity.TFuncitonEntity">
+        <include refid="findParentSql"/>
+        order by orderNumber asc
+    </select>
+
+    <select id="findAllWithDeleted" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TFuncitonEntity">
+        select
+        a.id id,
+        a.fun_url funUrl,
+        a.fun_name funName,
+        a.remark remark,
+        a.parent_id parentId,
+        a.order_number orderNumber,
+        a.INSERT_DATE insertTime,
+        a.insert_user insertUser,
+        a.isdel
+        from TAB_FUNCTION a
+        where a.isdel > -1
+        <if test="null != id and '' != id">
+            and a.id = #{id}
+        </if>
+        <if test="null != funUrl and '' != funUrl">
+            and a.fun_url = #{funUrl}
+        </if>
+        <if test="null != funName and '' != funName">
+            and a.fun_name = #{funName}
+        </if>
+        <if test="null != remark and '' != remark">
+            and a.remark = #{remark}
+        </if>
+        <if test="null != parentId and '' != parentId">
+            and a.parent_id = #{parentId}
+        </if>
+        <if test="null != orderNumber and '' != orderNumber">
+            and a.order_number = #{orderNumber}
+        </if>
+    </select>
+
+    <select id="findParentIdByFunName" parameterType="java.util.Map" resultType="java.lang.String">
+        select
+        id
+        from TAB_FUNCTION
+        where isdel = 0
+        and (parent_id = 0 OR parent_id is NULL)
+        and fun_name = #{funName}
+    </select>
+
+    <!---->
+    <select id="findChildFunciton" parameterType="java.lang.String" resultType="com.njusc.npm.metadata.entity.TFuncitonEntity">
+        <include refid="findChildSql"/>
+    </select>
+
+    <select id="findAll" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TFuncitonEntity">
+        <include refid="findSql"/>
+        order by orderNumber asc
+    </select>
+
+    <select id="findFunctionByFunNameAndID" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TFuncitonEntity">
+        select
+        a.id id,
+        a.fun_url funUrl,
+        a.fun_name funName,
+        a.remark remark,
+        a.parent_id parentId,
+        a.order_number orderNumber,
+        a.INSERT_DATE insertTime,
+        a.insert_user insertUser,
+        a.isdel
+        from TAB_FUNCTION a
+        where a.fun_name = ${funName}
+        and a.id = ${id}
+    </select>
+
+    <insert id="save" parameterType="com.njusc.npm.metadata.entity.TFuncitonEntity">
+        insert
+        <include refid="saveSql"/>
+        values (
+        #{ id},
+        #{ funUrl},
+        #{ funName},
+        #{ remark},
+        #{ parentId},
+        #{ orderNumber},
+        #{ insertTime},
+        #{ insertUser},
+        #{isdel}
+        )
+    </insert>
+
+    <insert id="saveAll" parameterType="java.util.List">
+        insert
+        <include refid="saveSql"/>
+        values
+        <foreach collection="list" item="data" separator=",">
+            (
+            #{data.id},
+            #{data.funUrl},
+            #{data.funName},
+            #{data.remark},
+            #{data.parentId},
+            #{data.orderNumber},
+            #{data.insertTime},
+            #{data.insertUser},
+            #{data.isdel}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateAll" parameterType="java.util.List">
+        <foreach collection="list" item="data" separator=";">
+            update TAB_FUNCTION set
+            fun_url = #{data.funUrl},
+            fun_name = #{data.funName},
+            remark = #{data.remark},
+            parent_id = #{data.parentId},
+            order_number = #{data.orderNumber},
+            isdel=#{data.isdel}
+            where id = #{data.id}
+        </foreach>
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        <include refid="deleteSql"/>
+        where
+        <!-- 单个参数，使用内置对象判断 -->
+        <if test="null != _parameter and '' != _parameter">
+            id = #{id}
+        </if>
+    </delete>
+
+    <delete id="deleteAll" parameterType="java.lang.String">
+        <include refid="deleteSql"/>
+        where
+        id in
+        <foreach close=")" collection="list" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <update id="update" parameterType="com.njusc.npm.metadata.entity.TFuncitonEntity">
+        update  TAB_FUNCTION
+        set
+        fun_url = #{funUrl},
+        fun_name = #{funName},
+        remark = #{remark},
+        parent_id = #{parentId},
+        order_number = #{orderNumber},
+        isdel=#{isdel}
+        where  id = #{id}
+    </update>
+
+    <sql id="saveSql">
+        into TAB_FUNCTION
+        (
+        id,
+        fun_url,
+        fun_name,
+        remark,
+        parent_id,
+        order_number,
+        INSERT_DATE,
+        insert_user,
+        isdel
+        )
+    </sql>
+
+    <sql id="deleteSql">
+        update TAB_FUNCTION set isdel=1
+    </sql>
+
+    <sql id="findSql">
+        select
+        a.ID id,
+        a.FUN_URL funUrl,
+        a.FUN_NAME funName,
+        a.REMARK remark,
+        a.PARENT_ID parentId,
+        a.ORDER_NUMBER orderNumber,
+        a.INSERT_TIME insertTime,
+        a.INSERT_USER insertUser,
+        a.ISDEL
+        from TAB_FUNCTION a
+        where a.ISDEL !=1
+        <if test="null != id and '' != id">
+            and a.ID = #{id}
+        </if>
+        <if test="null != funUrl and '' != funUrl">
+            and a.FUN_URL = #{funUrl}
+        </if>
+        <if test="null != funName and '' != funName">
+            and a.FUN_NAME = #{funName}
+        </if>
+        <if test="null != remark and '' != remark">
+            and a.REMARK = #{remark}
+        </if>
+        <if test="null != parentId and '' != parentId">
+            and a.PARENT_ID = #{parentId}
+        </if>
+        <if test="null != orderNumber and '' != orderNumber">
+            and a.ORDER_NUMBER = #{orderNumber}
+        </if>
+    </sql>
+
+
+    <sql id="findParentSql">
+        select
+        a.id id,
+        a.fun_url funUrl,
+        a.fun_name funName,
+        a.remark remark,
+        a.parent_id parentId,
+        a.order_number orderNumber,
+        a.INSERT_DATE insertTime,
+        a.insert_user insertUser,
+        a.isdel
+        from TAB_FUNCTION a
+        where a.isdel=0 AND parent_id = 0
+    </sql>
+
+    <sql id="findChildSql">
+        select
+        a.id id,
+        a.fun_url funUrl,
+        a.fun_name funName,
+        a.remark remark,
+        a.parent_id parentId,
+        a.order_number orderNumber,
+        a.INSERT_DATE insertTime,
+        a.insert_user insertUser,
+        a.isdel
+        from TAB_FUNCTION a
+        where a.isdel=0
+        and a.parent_id = #{id}
+        order BY order_number ASC
+    </sql>
+
+    <sql id="findFunName">
+        select
+        a.fun_name
+        from TAB_FUNCTION a
+        where a.isdel=0
+        and a.id = #{id}
+    </sql>
+
+    <select id="findFunciton2" resultType="com.njusc.npm.metadata.entity.TFuncitonEntity">
+        <include refid="findParentSql2"/>
+        order by orderNumber asc
+    </select>
+    <sql id="findParentSql2">
+        select
+        a.id id,
+        a.fun_url funUrl,
+        a.fun_name funName,
+        a.remark remark,
+        a.parent_id parentId,
+        a.order_number orderNumber,
+        a.INSERT_DATE insertTime,
+        a.insert_user insertUser,
+        a.isdel
+        from TAB_FUNCTION a
+        where a.isdel=0
+    </sql>
+
+
+<!--    获取所有子模块-->
+
+    <select id="getFunctionListAdmin" resultType="com.njusc.npm.metadata.entity.TFuncitonEntity">
+    select
+        f.id                     id,
+        f.parent_id               parentId,
+        f.order_number             orderNumber,
+        f.fun_name                  funName,
+        f.fun_url                funUrl
+    from TAB_FUNCTION f
+    where f.isdel !=1
+      and f.parent_id = (select id from TAB_FUNCTION a where a.isdel !=1
+                                                       and a.parent_id is null)
+    order by f.order_number
+   </select>
+
+<!--    根据父模块ID获取子模块-->
+
+    <select id="getNextFunctionListAdmin" resultType="com.njusc.npm.metadata.entity.TFuncitonEntity">
+        select
+                   f.id                     id,
+                   f.parent_id              parentId,
+                   f.order_number           orderNumber,
+                   f.fun_name               funName,
+                   f.fun_url                funUrl
+            from TAB_FUNCTION f
+            where f.isdel = 0
+            and f.parent_id =#{parentId}
+            order by f.order_number
+    </select>
+
+
+<!--    根据用户ID获取角色ID，根据角色ID去获取角色所有能访问的模块，最后再根据父模块ID去筛选-->
+
+    <select id="getNextFunctionList" resultType="com.njusc.npm.metadata.entity.TFuncitonEntity">
+    select
+                   f.id                     id,
+                   f.parent_id               parentId,
+                   f.order_number            orderNumber,
+                   f.fun_name               funName,
+                   f.fun_url                funUrl
+            from TAB_FUNCTION f
+            where f.isdel = 0
+              and f.id in (select fr.function_id
+                           from TAB_ROLE_FUNCTION fr
+                           where fr.isdel = 0
+                             and fr.role_id in (select ur.role_id from TAB_USER_ROLE ur where ur.isdel = 0
+                                                                                   and ur.user_id = #{userId}))
+              and f.parent_id = #{parentId}
+              order by f.order_number
+    </select>
+
+
+<!--    根据用户ID获取角色ID，根据角色ID去获取角色所有能访问的子模块-->
+
+    <select id="getFunctionList" resultType="com.njusc.npm.metadata.entity.TFuncitonEntity">
+        select
+           f.id                     id,
+           f.parent_id               parentId,
+           f.order_number             orderNumber,
+           f.fun_name          funName,
+           f.fun_url                funUrl
+    from TAB_FUNCTION f
+    where f.isdel = 0
+      and f.id in (select fr.function_id
+                   from TAB_ROLE_FUNCTION fr
+                   where fr.isdel = 0
+                     and fr.role_id in (select ur.role_id from TAB_USER_ROLE ur where ur.isdel = 0
+                                                                           and ur.user_id = #{userId}))
+      and f.parent_id = (select id from TAB_FUNCTION a where a.isdel = 0
+                                                      and a.parent_id is null)
+                                                      order by f.order_number
+    </select>
+
+</mapper>

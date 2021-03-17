@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njusc.npm.metadata.dao.mapper.TAttendanceDao">
+
+    <!--    注意：select加上isel判断，并改换成left join-->
+
+
+    <!--    新增上班打卡记录-->
+    <insert id="addGoToWork" parameterType="com.njusc.npm.metadata.entity.TAttendanceEntity">
+        <include refid="addGoToWorkSql"/>
+    </insert>
+
+    <!--    获取上班打卡记录-->
+    <select id="getGoToWork" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TAttendanceEntity">
+        <include refid="getGoToWorkSql"/>
+    </select>
+
+    <!--    获取上班考勤时间-->
+    <select id="getGoToWorkTime" resultType="java.lang.String">
+        <include refid="getGoToWorkTimeSql"/>
+    </select>
+
+
+    <!--    获取下班考勤时间-->
+    <select id="getOffWorkTime" resultType="java.lang.String">
+        <include refid="getOffWorkTimeSql"/>
+    </select>
+
+
+    <!--    新增下班打卡记录-->
+    <select id="addOffWork" parameterType="com.njusc.npm.metadata.entity.TAttendanceEntity">
+        <include refid="addOffWorkSql"/>
+    </select>
+
+    <!--    获取下班打卡记录-->
+    <select id="getOffWork" resultType="com.njusc.npm.metadata.entity.TAttendanceEntity" parameterType="java.util.Map">
+        <include refid="getOffWorkSql"/>
+    </select>
+
+    <!--    获取所有外出打卡类型-->
+    <select id="getOtherClockInType" resultType="java.lang.String">
+        <include refid="getOtherClockInTypeSql"/>
+    </select>
+
+    <!--    新增外出打卡记录-->
+    <select id="addGoOut" parameterType="java.util.Map">
+        <include refid="addGoOutSql"/>
+    </select>
+
+    <!-- 获取所有外出打卡记录-->
+    <select id="getGoOut" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TAttendanceEntity">
+        <include refid="getGoOutSql"/>
+    </select>
+
+
+    <sql id="addGoToWorkSql">
+        INSERT INTO TAB_ATTENDANCE
+            (ID, USER_ID, CLOCK_IN_ID, REMARK)
+        VALUES (#{id}, #{userId},
+                (SELECT ID
+                 FROM TAB_CLOCK_IN_TIME
+                 WHERE CLOCK_IN_NAME = '上班打卡'),
+                #{remark})
+    </sql>
+
+    <sql id="getGoToWorkSql">
+        SELECT #{userName} AS userName,
+        (SELECT CLOCK_IN_TIME FROM TAB_CLOCK_IN_TIME WHERE CLOCK_IN_NAME = '上班打卡') AS clockInTime,
+        ACTION_TIME AS actionTime,
+        REMARK AS remark,
+        INSERT_DATE AS insertDate
+        FROM TAB_ATTENDANCE
+        WHERE ISDEL!=1
+        AND CLOCK_IN_ID=(SELECT ID
+        FROM TAB_CLOCK_IN_TIME
+        WHERE CLOCK_IN_NAME = '上班打卡')
+        <if test="null !=userId and '' !=userId">
+            AND USER_ID=#{userId}
+        </if>
+        <if test="null != year and ''!=year">
+            AND DATE_FORMAT(ACTION_TIME,'%y') =DATE_FORMAT(#{year},'%y')
+        </if>
+        <if test="null != month and ''!=month">
+            AND DATE_FORMAT(ACTION_TIME,'%y%m') =DATE_FORMAT(#{month},'%y%m')
+        </if>
+        <if test="null != day and ''!=day">
+            AND DATE_FORMAT(ACTION_TIME,'%y%m%d') =DATE_FORMAT(#{day},'%y%m%d')
+        </if>
+        <if test="null != remark and ''!=remark">
+            AND REMARK=#{remark}
+        </if>
+        ORDER BY INSERT_DATE DESC
+    </sql>
+
+    <sql id="getGoToWorkTimeSql">
+        SELECT CLOCK_IN_TIME
+        FROM TAB_CLOCK_IN_TIME
+        WHERE ISDEL!=1
+AND CLOCK_IN_NAME='上班打卡';
+    </sql>
+
+    <sql id="getOffWorkTimeSql">
+        SELECT CLOCK_IN_TIME
+        FROM TAB_CLOCK_IN_TIME
+        WHERE ISDEL!=1
+AND CLOCK_IN_NAME='下班打卡';
+    </sql>
+
+
+    <sql id="addOffWorkSql">
+        INSERT INTO TAB_ATTENDANCE
+            (ID, USER_ID, CLOCK_IN_ID, REMARK)
+        VALUES (#{id}, #{userId},
+                (SELECT ID
+                 FROM TAB_CLOCK_IN_TIME
+                 WHERE CLOCK_IN_NAME = '下班打卡'),
+                #{remark})
+    </sql>
+
+    <sql id="getOffWorkSql">
+        SELECT #{userName} AS userName,
+        (SELECT CLOCK_IN_TIME FROM TAB_CLOCK_IN_TIME WHERE CLOCK_IN_NAME = '下班打卡') AS clockInTime,
+        ACTION_TIME AS actionTime,
+        REMARK AS remark,
+        INSERT_DATE AS insertDate
+        FROM TAB_ATTENDANCE
+        WHERE ISDEL!=1
+        AND CLOCK_IN_ID=(SELECT ID
+        FROM TAB_CLOCK_IN_TIME
+        WHERE CLOCK_IN_NAME = '下班打卡')
+        <if test="null !=userId and '' !=userId">
+            AND USER_ID=#{userId}
+        </if>
+        <if test="null != year and ''!=year">
+            AND DATE_FORMAT(ACTION_TIME,'%y') =DATE_FORMAT(#{year},'%y')
+        </if>
+        <if test="null != month and ''!=month">
+            AND DATE_FORMAT(ACTION_TIME,'%y%m') =DATE_FORMAT(#{month},'%y%m')
+        </if>
+        <if test="null != day and ''!=day">
+            AND DATE_FORMAT(ACTION_TIME,'%y%m%d') =DATE_FORMAT(#{day},'%y%m%d')
+        </if>
+        <if test="null != remark and ''!=remark">
+            AND REMARK=#{remark}
+        </if>
+        ORDER BY INSERT_DATE DESC
+    </sql>
+
+    <sql id="getOtherClockInTypeSql">
+        SELECT CLOCK_IN_NAME
+        FROM TAB_CLOCK_IN_TIME
+        WHERE ISDEL != 1
+  AND CLOCK_IN_TYPE IN (
+    SELECT ID
+    FROM TAB_BASECODE
+    WHERE ISDEL != 1
+      AND BASE_TYPE_NAME = '打卡类型'
+      AND DATA_VALUE1 not in('上班打卡','下班打卡')
+    ORDER BY DATA_KEY)
+    </sql>
+
+    <sql id="addGoOutSql">
+        INSERT INTO TAB_ATTENDANCE
+            (ID, USER_ID, CLOCK_IN_ID, REMARK)
+        VALUES (#{id}, #{userId},
+                (SELECT ID
+                 FROM TAB_CLOCK_IN_TIME
+                 WHERE ISDEL!=1
+                    AND CLOCK_IN_NAME =#{remark}),
+               (SELECT CLOCK_IN_REMARK
+                   FROM TAB_CLOCK_IN_TIME
+                   WHERE ISDEL!=1
+                   AND CLOCK_IN_NAME =#{remark})
+            )
+    </sql>
+
+
+    <sql id="getGoOutSql">
+        SELECT #{userName} AS userName,
+        b.CLOCK_IN_NAME AS clockInName,
+        a.ACTION_TIME AS actionTime,
+        a.INSERT_DATE AS insertDate
+        FROM TAB_ATTENDANCE a
+        LEFT JOIN TAB_CLOCK_IN_TIME b ON a.CLOCK_IN_ID=b.ID
+        WHERE a.ISDEL=0
+        AND b.CLOCK_IN_TYPE IN (
+        SELECT ID
+        FROM TAB_BASECODE
+        WHERE ISDEL != 1
+        AND BASE_TYPE_NAME = '打卡类型'
+        AND DATA_VALUE1 not in('上班打卡','下班打卡')
+        ORDER BY DATA_KEY ASC
+        )
+        <if test="null !=userId and '' !=userId">
+            AND a.USER_ID=#{userId}
+        </if>
+        <if test="null != year and ''!=year">
+            AND DATE_FORMAT(a.ACTION_TIME,'%y') =DATE_FORMAT(#{year},'%y')
+        </if>
+        <if test="null != month and ''!=month">
+            AND DATE_FORMAT(a.ACTION_TIME,'%y%m') =DATE_FORMAT(#{month},'%y%m')
+        </if>
+        <if test="null != day and ''!=day">
+            AND DATE_FORMAT(a.ACTION_TIME,'%y%m%d') =DATE_FORMAT(#{day},'%y%m%d')
+        </if>
+        <if test="null != remark and ''!=remark">
+            AND b.CLOCK_IN_NAME=#{remark}
+        </if>
+        ORDER BY a.INSERT_DATE DESC
+    </sql>
+
+
+    <select id="findDetail" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TAttendanceEntity">
+        <include refid="findDetailSql"></include>
+    </select>
+
+    <sql id="findDetailSql">
+        SELECT
+        a.USER_ID as userId,
+        b.USER_NAME as userName,
+        a.CLOCK_IN_ID as clockInId,
+        c.CLOCK_IN_NAME as clockInName,
+        d.DATA_VALUE1 as clockInType,
+        c.CLOCK_IN_REMARK clockInRemark,
+        c.CLOCK_IN_TIME as clockInTime,
+        a.ACTION_TIME as actionTime,
+        a.INSERT_DATE as insertDate,
+        a.INSERT_USER as insertUser,
+        a.REMARK as remark
+        FROM TAB_ATTENDANCE a
+        LEFT JOIN TAB_USER b ON a.USER_ID=b.ID and a.ISDEL!=1
+        LEFT JOIN TAB_CLOCK_IN_TIME c ON a.CLOCK_IN_ID=c.ID and c.isdel!=1
+        LEFT JOIN TAB_BASECODE d on c.CLOCK_IN_TYPE=d.ID and d.isdel!=1
+        WHERE a.ISDEL!=1
+        <if test="null!=userName and '' !=userName">
+            and b.USER_NAME=#{userName}
+        </if>
+        <if test="null!=attendanceType and '' !=attendanceType">
+            and c.CLOCK_IN_TYPE=#{attendanceType}
+        </if>
+        <if test="null !=attendanceName and '' !=attendanceName">
+            and c.CLOCK_IN_NAME=#{attendanceName}
+        </if>
+        <if test="null !=year and ''!=year">
+            and DATE_FORMAT(a.INSERT_DATE,'%Y')=DATE_FORMAT(CONCAT(#{year},'-12-31'),'%Y')
+        </if>
+        <if test="null !=month and ''!=month">
+            and DATE_FORMAT(a.INSERT_DATE,'%Y%m')=DATE_FORMAT(CONCAT(#{month},'-28'),'%Y%m')
+        </if>
+        ORDER BY a.INSERT_DATE DESC
+    </sql>
+
+</mapper>

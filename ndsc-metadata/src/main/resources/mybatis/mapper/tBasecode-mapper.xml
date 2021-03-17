@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njusc.npm.metadata.dao.mapper.TBasecodeDao">
+    <select id="find" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TBasecodeEntity">
+        <include refid="findSql"/>
+    </select>
+
+
+    <select id="findAll" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TBasecodeEntity">
+        <include refid="findSql"/>
+        order by INSERT_DATE desc
+    </select>
+
+
+    <insert id="save" parameterType="com.njusc.npm.metadata.entity.TBasecodeEntity">
+        insert
+        <include refid="saveSql"/>
+        values (
+        #{ id},
+        #{ baseType},
+        #{ baseTypeName},
+        #{ dataKey},
+        #{ dataValue1},
+        #{ dataValue2},
+        #{ dataValue3},
+        #{ insertTime},
+        #{ insertUser},
+        #{ parentId},
+        #{isdel}
+        )
+    </insert>
+
+    <insert id="saveAll" parameterType="java.util.List">
+        insert
+        <include refid="saveSql"/>
+        values
+        <foreach collection="list" item="data" separator=",">
+            (
+            #{data.id},
+            #{data.baseType},
+            #{data.baseTypeName},
+            #{data.dataKey},
+            #{data.dataValue1},
+            #{data.dataValue2},
+            #{data.dataValue3},
+            #{data.insertTime},
+            #{data.insertUser},
+            #{data.parentId},
+            #{data.isdel}
+            )
+        </foreach>
+
+    </insert>
+
+    <update id="updateAll" parameterType="java.util.List">
+
+        <foreach collection="list" item="data" separator=";">
+            update TAB_BASECODE set
+            base_type = #{data.baseType},
+            base_type_name = #{data.baseTypeName},
+            data_key = #{data.dataKey},
+            data_value1 = #{data.dataValue1},
+            data_value2 = #{data.dataValue2},
+            data_value3 = #{data.dataValue3},
+            parent_id = #{data.parentId},
+            isdel=#{data.isdel}
+            where id = #{data.id}
+        </foreach>
+
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        <include refid="deleteSql"/>
+        where
+        <!-- 单个参数，使用内置对象判断 -->
+        <if test="null != _parameter and '' != _parameter">
+            id = #{id}
+        </if>
+    </delete>
+
+    <delete id="deleteAll" parameterType="java.lang.String">
+
+        <include refid="deleteSql"/>
+        where
+        id in
+        <foreach close=")" collection="list" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <update id="update" parameterType="com.njusc.npm.metadata.entity.TBasecodeEntity">
+        update TAB_BASECODE
+        set base_type      = #{baseType},
+            base_type_name = #{baseTypeName},
+            data_key       = #{dataKey},
+            data_value1    = #{dataValue1},
+            data_value2    = #{dataValue2},
+            data_value3    = #{dataValue3},
+            parent_id      = #{parentId},
+            isdel=#{isdel}
+        where id = #{id}
+    </update>
+
+    <sql id="saveSql">
+        into TAB_BASECODE
+    (
+                        id,
+                                 base_type,
+                                 base_type_name,
+                                 data_key,
+                                 data_value1,
+                                 data_value2,
+                                 data_value3,
+                                             INSERT_DATE,
+                                 insert_user,
+                                 parent_id,
+                   isdel
+    )
+    </sql>
+
+    <sql id="deleteSql">
+        update TAB_BASECODE
+        set isdel=1
+    </sql>
+
+    <sql id="findSql">
+        select
+        a.id id,
+        a.base_type baseType,
+        a.base_type_name baseTypeName,
+        a.data_key dataKey,
+        a.data_value1 dataValue1,
+        a.data_value2 dataValue2,
+        a.data_value3 dataValue3,
+        a.INSERT_DATE insertTime,
+        a.insert_user insertUser,
+        a.parent_id parentId,
+        a.isdel
+        from TAB_BASECODE a
+        where a.isdel=0
+        <if test="null != id and '' != id">
+            and a.id = #{id}
+        </if>
+        <if test="null != baseType and '' != baseType">
+            and a.base_type = #{baseType}
+        </if>
+        <if test="null != baseTypeName and '' != baseTypeName">
+            and a.base_type_name = #{baseTypeName}
+        </if>
+        <if test="null != dataKey and '' != dataKey">
+            and a.data_key = #{dataKey}
+        </if>
+        <if test="null != dataValue1 and '' != dataValue1">
+            and a.data_value1 = #{dataValue1}
+        </if>
+        <if test="null != dataValue2 and '' != dataValue2">
+            and a.data_value2 = #{dataValue2}
+        </if>
+        <if test="null != dataValue3 and '' != dataValue3">
+            and a.data_value3 = #{dataValue3}
+        </if>
+        <if test="null != parentId and '' != parentId">
+            and a.parent_id = #{parentId}
+        </if>
+
+    </sql>
+
+    <!--    查询所有学历-->
+    <select id="findEducations" resultType="com.njusc.npm.metadata.entity.TBasecodeEntity">
+        <include refid="findEducationsSql"></include>
+    </select>
+
+    <sql id="findEducationsSql">
+        SELECT ID             as id,
+               BASE_TYPE      as baseType,
+               BASE_TYPE_NAME as baseTypeName,
+               DATA_KEY       as dataKey,
+               DATA_VALUE1    as dataValue1,
+               DATA_VALUE2    as dataValue2,
+               DATA_VALUE3    as dataValue3,
+               ISDEL          as isdel,
+               INSERT_DATE    as insertDate,
+               INSERT_USER    as insertUser,
+               PARENT_ID      as parentId
+        FROM TAB_BASECODE
+        WHERE ISDEL != 1
+  AND BASE_TYPE = 'EDUCATION'
+  AND BASE_TYPE_NAME = '学历';
+    </sql>
+
+
+    <select id="findMarriages" resultType="com.njusc.npm.metadata.entity.TBasecodeEntity">
+        <include refid="findMarriagesSql"></include>
+    </select>
+
+    <sql id="findMarriagesSql">
+        SELECT ID             as id,
+               BASE_TYPE      as baseType,
+               BASE_TYPE_NAME as baseTypeName,
+               DATA_KEY       as dataKey,
+               DATA_VALUE1    as dataValue1,
+               DATA_VALUE2    as dataValue2,
+               DATA_VALUE3    as dataValue3,
+               ISDEL          as isdel,
+               INSERT_DATE    as insertDate,
+               INSERT_USER    as insertUser,
+               PARENT_ID      as parentId
+        FROM TAB_BASECODE
+        WHERE ISDEL != 1
+  AND BASE_TYPE = 'MARRIAGE'
+  AND BASE_TYPE_NAME = '婚姻状态';
+    </sql>
+</mapper>

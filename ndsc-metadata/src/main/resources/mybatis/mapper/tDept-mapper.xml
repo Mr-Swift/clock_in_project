@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njusc.npm.metadata.dao.mapper.TDeptDao">
+    <select id="find" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TDeptEntity">
+        <include refid="findSql" />
+    </select>
+
+
+    <select id="findAll" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TDeptEntity">
+        <include refid="findSql" />
+        order by INSERT_DATE desc
+    </select>
+
+
+    <insert id="save" parameterType="com.njusc.npm.metadata.entity.TDeptEntity">
+        insert
+        <include refid="saveSql" />
+        values (
+        #{ id},
+        #{ insertUser},
+        #{ deptName},
+        #{ deptRemark},
+        #{ insertTime},
+        #{isdel}
+        )
+    </insert>
+
+    <insert id="saveAll" parameterType="java.util.List">
+        insert
+        <include refid="saveSql" />
+        values
+        <foreach collection="list" item="data" separator=",">
+            (
+            #{data.id},
+            #{data.insertUser},
+            #{data.deptName},
+            #{data.deptRemark},
+            #{data.insertTime},
+            #{data.isdel}
+            )
+        </foreach>
+    </insert>
+
+    <update id="updateAll" parameterType="java.util.List">
+
+        <foreach collection="list" item="data" separator=";">
+            update  TAB_DEPT set
+            dept_name = #{data.deptName},
+            dept_remark = #{data.deptRemark},
+            isdel=#{data.isdel}
+            where  id = #{data.id}
+        </foreach>
+
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        <include refid="deleteSql" />
+        where
+        <!-- 单个参数，使用内置对象判断 -->
+        <if test="null != _parameter and '' != _parameter">
+            id = #{id}
+        </if>
+    </delete>
+
+    <delete id="deleteAll" parameterType="java.lang.String">
+
+        <include refid="deleteSql" />
+        where
+        id in
+        <foreach close=")" collection="list" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <update id="update" parameterType="com.njusc.npm.metadata.entity.TDeptEntity">
+        update  TAB_DEPT
+        set
+        dept_name = #{deptName},
+        dept_remark = #{deptRemark},
+        isdel=#{isdel}
+        where  id = #{id}
+    </update>
+
+    <sql id="saveSql">
+        into TAB_DEPT
+        (
+        id,
+        insert_user,
+        dept_name,
+        dept_remark,
+        INSERT_DATE,
+        isdel
+        )
+    </sql>
+
+    <sql id="deleteSql">
+        update TAB_DEPT set isdel=1
+    </sql>
+
+    <sql id="findSql">
+        select
+        a.id id,
+        a.insert_user insertUser,
+        a.dept_name deptName,
+        a.dept_remark deptRemark,
+        a.INSERT_DATE insertTime,
+        a.isdel
+        from  TAB_DEPT a
+        where a.isdel=0
+        <if test="null != id and '' != id">
+            and a.id = #{id}
+        </if>
+        <if test="null != deptName and '' != deptName">
+            and a.dept_name like CONCAT('%',#{deptName},'%')
+        </if>
+        <if test="null != deptRemark and '' != deptRemark">
+            and a.dept_remark = #{deptRemark}
+        </if>
+
+    </sql>
+
+    <!--<select id="findList" resultType="com.njusc.npm.metadata.entity.TDeptEntity">-->
+        <!--select   a.id id,-->
+                <!--a.dept_name  deptName,-->
+                <!--a.dept_remark  deptRemark-->
+        <!--from TAB_DEPT a-->
+         <!--where a.isdel=0-->
+         <!--order by  a.INSERT_DATE-->
+    <!--</select>-->
+
+    <select id="findCheckList" resultType="java.util.Map" parameterType="java.util.Map">
+        select   a.id id,
+                a.dept_name  deptName,
+                a.dept_remark  deptRemark
+        from TAB_DEPT a
+        where a.isdel=0
+         <if test="null !=deptName and '' !=deptName">
+            and a.dept_name like concat('%',#{deptName},'%')
+         </if>
+         order by  a.INSERT_DATE
+    </select>
+
+    <select id="findByDeptName" resultType="com.njusc.npm.metadata.entity.TDeptEntity">
+        select   a.id id,
+                a.dept_name  deptName,
+                a.dept_remark  deptRemark
+        from TAB_DEPT a
+        where a.isdel=0 and a.dept_name=#{deptName}
+    </select>
+
+
+
+<!--    下拉列表，查询所有的部门-->
+    <select id="findDepts" resultType="com.njusc.npm.metadata.entity.TDeptEntity">
+        <include refid="findDeptsSql"/>
+    </select>
+
+    <sql id="findDeptsSql">
+        SELECT
+            ID as id,
+            DEPT_NAME as deptName,
+            DEPT_REMARK as deptRemark,
+            DEPT_MANAGER as deptManager,
+            INSERT_USER as insertUser,
+            INSERT_DATE as insertDate,
+               ISDEL as isdel
+        FROM TAB_DEPT
+        WHERE ISDEL!=1;
+    </sql>
+
+</mapper>

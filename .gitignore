@@ -1,0 +1,5 @@
+# Project exclude paths
+/ndsc-backstage/target/
+/ndsc-metadata/target/
+/ndsc-service/target/
+/ndsc-utils/target/

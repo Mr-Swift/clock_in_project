@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+	<!-- 安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<constructor-arg>
+		<list>
+			<bean id="myShiroRealm" class="com.njusc.npm.app.security.shiro.SpringShiroRealm" />
+  		</list>
+		</constructor-arg>
+	</bean>
+
+	<!-- 基于Form表单的身份验证过滤器 -->
+	<bean id="formAuthenticationFilter"
+		class="com.njusc.npm.app.security.shiro.MyFilter">
+		<property name="usernameParam" value="username" />
+		<property name="passwordParam" value="password" />
+		<property name="loginUrl" value="/login/toLogin.do" />
+	</bean>
+
+	<!-- Shiro的Web过滤器 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login/toLogin.do" />
+		<property name="successUrl" value="/main/index.do" />
+		<property name="unauthorizedUrl" value="/login/unauthorized.do" />
+		
+		<property name="filters">
+			<map>
+				<entry key="authc" value-ref="formAuthenticationFilter" />
+			</map>
+		</property>
+		
+		<property name="filterChainDefinitions">
+			<value>
+				/ = authc
+				/frame/** = anon
+				/login/unauthorized.do = anon
+				/login/unlogin.do = logout
+				/login/*.do = anon
+				/** = authc
+				<!--参数说明：
+					anon 没有参数，表示可以匿名使用
+					authcBasic 没有参数表示httpBasic认证
+					authc 表示需要认证(登录)才能使用，没有参数
+					user user表示用户不一定已通过认证,只要曾被Shiro记住过登录状态的用户就可以正常发起请求,比如rememberMe 
+					
+					roles[admin],参数可以写多个，多个时必须加上引号，并且参数之间用逗号分割，  
+						当有多个参数时，例如admins/user/**=roles["admin,guest"],每个参数通过才算通过，相当于hasAllRoles()方法
+						/user/reset** = roles["SUPER_ADMIN"]
+				 	perms[user:add:*],参数可以写多个，多个时必须加上引号，并且参数之间用逗号分割，
+				 		例如/admins/user/**=perms["user:add:*,user:modify:*"]，当有多个参数时必须每个参数都通过才通过，想当于isPermitedAll()方法
+				 		/user/reset** = perms[reset]
+					rest[user],根据请求的方法，相当于/admins/user/**=perms[user:method] ,其中method为post，get，delete等
+					port[8081],当请求的url的端口不是8081是跳转到schemal://serverName:8081?queryString,
+						其中schmal是协议http或https等，serverName是你访问的host,8081是url配置里port的端口，queryString是你访问的url里的？后面的参数。
+					ssl 没有参数，表示安全的url请求，协议为https
+					
+					注：    anon，authcBasic，auchc，user是认证过滤器，
+						perms，roles，ssl，rest，port是授权过滤器
+				 -->
+				<!--/** = user			-->
+			</value>
+		</property>
+	</bean>
+
+	<!-- Shiro生命周期处理器 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+</beans>

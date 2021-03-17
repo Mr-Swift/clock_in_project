@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njusc.npm.metadata.dao.mapper.TUserPostDao">
+    <select id="find" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TUserPostEntity">
+        <include refid="findSql"/>
+    </select>
+
+
+    <select id="findAll" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TUserPostEntity">
+        <include refid="findSql"/>
+        order by insert_time desc
+    </select>
+
+
+    <insert id="save" parameterType="com.njusc.npm.metadata.entity.TUserPostEntity">
+        insert
+        <include refid="saveSql"/>
+        values (
+        #{ id},
+        #{ userId},
+        #{ postManageId},
+        #{ insertUser},
+        #{ insertTime},
+        #{isdel}
+        )
+    </insert>
+
+    <insert id="saveAll" parameterType="java.util.List">
+        insert
+        <include refid="saveSql"/>
+        values
+        <foreach collection="list" item="data" separator=",">
+            (
+            #{data.id},
+            #{data.userId},
+            #{data.postManageId},
+            #{data.insertUser},
+            #{data.insertTime},
+            #{data.isdel}
+            )
+        </foreach>
+
+    </insert>
+
+    <update id="updateAll" parameterType="java.util.List">
+
+        <foreach collection="list" item="data" separator=";">
+            update t_user_post set
+            user_id = #{data.userId},
+            post_manage_id = #{data.postManageId},
+            isdel=#{data.isdel}
+            where id = #{data.id}
+        </foreach>
+
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        <include refid="deleteSql"/>
+        where
+        <!-- 单个参数，使用内置对象判断 -->
+        <if test="null != _parameter and '' != _parameter">
+            id = #{id}
+        </if>
+    </delete>
+    <delete id="deleteByPostId" parameterType="java.lang.String">
+        <include refid="deleteSql"/>
+        where
+        <!-- 单个参数，使用内置对象判断 -->
+        <if test="null != _parameter and '' != _parameter">
+            post_manage_id = #{post_manage_id}
+        </if>
+    </delete>
+    <delete id="deleteByUserId" parameterType="java.lang.String">
+        <include refid="deleteSql"/>
+        where
+        <!-- 单个参数，使用内置对象判断 -->
+        <if test="null != _parameter and '' != _parameter">
+            user_id = #{userId}
+        </if>
+    </delete>
+
+    <delete id="deleteAll" parameterType="java.lang.String">
+
+        <include refid="deleteSql"/>
+        where
+        id in
+        <foreach close=")" collection="list" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <update id="update" parameterType="com.njusc.npm.metadata.entity.TUserPostEntity">
+    update  t_user_post
+    set
+                                    user_id = #{userId},
+                                post_manage_id = #{postManageId},
+                                                   isdel=#{isdel}
+    where  id = #{id}
+</update>
+
+    <update id="updateByUserId" parameterType="com.njusc.npm.metadata.entity.TUserPostEntity">
+    update  t_user_post
+    set
+                                post_manage_id = #{postManageId},
+                                                   isdel=#{isdel}
+    where  user_id = #{userId}
+    <if test="null != oldPostManageId and '' != oldPostManageId">
+        and post_manage_id = #{oldPostManageId}
+    </if>
+</update>
+
+    <sql id="saveSql">
+     into t_user_post
+    (
+                        id,
+                                 user_id,
+                                 post_manage_id,
+                                 insert_user,
+                                 insert_time,
+                               isdel
+    )
+</sql>
+
+    <sql id="deleteSql">
+    update t_user_post set isdel=1
+</sql>
+
+    <sql id="findSql">
+        select
+        a.id id,
+        a.user_id userId,
+        a.post_manage_id postManageId,
+        a.insert_user insertUser,
+        a.insert_time insertTime,
+        a.isdel
+        from t_user_post a
+        where a.isdel=0
+        <if test="null != id and '' != id">
+            and a.id = #{id}
+        </if>
+        <if test="null != userId and '' != userId">
+            and a.user_id = #{userId}
+        </if>
+        <if test="null != postManageId and '' != postManageId">
+            and a.post_manage_id = #{postManageId}
+        </if>
+
+    </sql>
+
+    <select id="findAll2" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TUserPostEntity">
+        select
+        a.id id,
+        a.user_id userId,
+        a.post_manage_id postManageId,
+        a.insert_user insertUser,
+        a.insert_time insertTime,
+        a.isdel
+        from t_user_post a
+        <where>
+            <if test="null != id and '' != id">
+                and a.id = #{id}
+            </if>
+            <if test="null != userId and '' != userId">
+                and a.user_id = #{userId}
+            </if>
+            <if test="null != postManageId and '' != postManageId">
+                and a.post_manage_id = #{postManageId}
+            </if>
+        </where>
+        order by insert_time desc
+    </select>
+
+</mapper>

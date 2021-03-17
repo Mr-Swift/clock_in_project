@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njusc.npm.metadata.dao.mapper.TAttendanceStatisticsDao">
+    <select id="extract" parameterType="java.util.Map"
+            resultType="com.njusc.npm.metadata.entity.TAttendanceStatisticsEntity">
+        <include refid="extractSql"></include>
+    </select>
+
+    <sql id="extractSql">
+        select #{userId}                  as userId,
+               #{id}                      as id,
+               #{userName}                as userName,
+               date_format(#{date}, '%m') as dataMonth,
+               date_format(#{date}, '%Y') as dataYear,
+               (SELECT COUNT(a.ID)
+                FROM TAB_ATTENDANCE a
+                         LEFT JOIN TAB_CLOCK_IN_TIME b ON a.CLOCK_IN_ID = b.ID AND b.ISDEL != 1 LEFT JOIN TAB_BASECODE c
+        ON b.CLOCK_IN_TYPE = c.ID AND c.ISDEL != 1
+        WHERE a.ISDEL!=1
+          AND c.DATA_VALUE1='上班打卡'
+          AND DATE_FORMAT(a.INSERT_DATE
+            , '%y%m')=DATE_FORMAT( #{date}
+            , '%y%m')
+          AND (DATE_FORMAT(a.ACTION_TIME
+            , '%h%m%s') <![CDATA[ > ]]> b.CLOCK_IN_TIME
+           or a.REMARK='迟到')
+          AND a.USER_ID= #{userId}) as late
+            , (
+        SELECT COUNT (a.ID)
+        FROM TAB_ATTENDANCE a
+            LEFT JOIN TAB_CLOCK_IN_TIME b
+        ON a.CLOCK_IN_ID = b.ID AND b.ISDEL != 1
+            LEFT JOIN TAB_BASECODE c ON b.CLOCK_IN_TYPE = c.ID AND c.ISDEL != 1
+        WHERE a.ISDEL!=1
+          AND c.DATA_VALUE1='下班打卡'
+          AND DATE_FORMAT(a.INSERT_DATE
+            , '%y%m')=DATE_FORMAT( #{date}
+            , '%y%m')
+          AND (DATE_FORMAT(a.ACTION_TIME
+            , '%h%m%s') <![CDATA[ < ]]> b.CLOCK_IN_TIME
+           or a.REMARK='早退')
+          AND a.USER_ID= #{userId}) as leaveEarly
+            , ((select
+            (select count (*) from
+            (SELECT DATE_FORMAT(a.INSERT_DATE
+            , '%y%m%d') as days
+            FROM TAB_ATTENDANCE a
+            LEFT JOIN TAB_CLOCK_IN_TIME b ON a.CLOCK_IN_ID = b.ID
+          AND b.ISDEL != 1
+            LEFT JOIN TAB_BASECODE c ON b.CLOCK_IN_TYPE = c.ID
+          AND c.ISDEL != 1
+            WHERE a.ISDEL!=1
+          AND c.DATA_VALUE1='上班打卡'
+          AND DATE_FORMAT(a.INSERT_DATE
+            , '%y%m')=DATE_FORMAT( #{date}
+            , '%y%m')
+          AND a.USER_ID= #{userId} GROUP BY days having days not in (SELECT DATE_FORMAT(a.INSERT_DATE
+            , '%y%m%D') as days
+            FROM TAB_ATTENDANCE a
+            LEFT JOIN TAB_CLOCK_IN_TIME b ON a.CLOCK_IN_ID = b.ID
+          AND b.ISDEL != 1
+            LEFT JOIN TAB_BASECODE c ON b.CLOCK_IN_TYPE = c.ID
+          AND c.ISDEL != 1
+            WHERE a.ISDEL!=1
+          AND c.DATA_VALUE1='下班打卡'
+          AND DATE_FORMAT(a.INSERT_DATE
+            , '%y%m')=DATE_FORMAT( #{date}
+            , '%y%m')
+          AND a.USER_ID= #{userId} GROUP BY days)) as num1) + (select count (*) from (SELECT DATE_FORMAT(a.INSERT_DATE
+            , '%y%m%D') as days
+            FROM TAB_ATTENDANCE a
+            LEFT JOIN TAB_CLOCK_IN_TIME b ON a.CLOCK_IN_ID = b.ID
+          AND b.ISDEL != 1
+            LEFT JOIN TAB_BASECODE c ON b.CLOCK_IN_TYPE = c.ID
+          AND c.ISDEL != 1
+            WHERE a.ISDEL!=1
+          AND c.DATA_VALUE1='下班打卡'
+          AND DATE_FORMAT(a.INSERT_DATE
+            , '%y%m')=DATE_FORMAT( #{date}
+            , '%y%m')
+          AND a.USER_ID= #{userId} GROUP BY days having days not in (SELECT DATE_FORMAT(a.INSERT_DATE
+            , '%y%m%D') as days
+            FROM TAB_ATTENDANCE a
+            LEFT JOIN TAB_CLOCK_IN_TIME b ON a.CLOCK_IN_ID = b.ID
+          AND b.ISDEL != 1
+            LEFT JOIN TAB_BASECODE c ON b.CLOCK_IN_TYPE = c.ID
+          AND c.ISDEL != 1
+            WHERE a.ISDEL!=1
+          AND c.DATA_VALUE1='上班打卡'
+          AND DATE_FORMAT(a.INSERT_DATE
+            , '%y%m')=DATE_FORMAT( #{date}
+            , '%y%m')
+          AND a.USER_ID= #{userId} GROUP BY days)) as num2) as result)) as missAttendance
+            , (
+        SELECT count (a.ID)
+        FROM TAB_ATTENDANCE a
+            LEFT JOIN TAB_CLOCK_IN_TIME b
+        ON a.CLOCK_IN_ID = b.ID AND b.ISDEL != 1
+            LEFT JOIN TAB_BASECODE c ON b.CLOCK_IN_TYPE = c.ID AND c.ISDEL != 1
+        WHERE a.ISDEL!=1
+          AND c.DATA_VALUE1='外勤打卡'
+          AND DATE_FORMAT(a.INSERT_DATE
+            , '%y%m')=DATE_FORMAT('2021-03-01'
+            , '%y%m')
+          AND a.USER_ID=#{userId}) as workOutSide
+            , ((select count (*) from
+            (SELECT DATE_FORMAT(a.INSERT_DATE
+            , '%y%m%D') as days
+            FROM TAB_ATTENDANCE a
+            LEFT JOIN TAB_CLOCK_IN_TIME b ON a.CLOCK_IN_ID = b.ID
+          AND b.ISDEL != 1
+            LEFT JOIN TAB_BASECODE c ON b.CLOCK_IN_TYPE = c.ID
+          AND c.ISDEL != 1
+            WHERE a.ISDEL!=1
+          AND c.DATA_VALUE1='外勤打卡'
+           or c.DATA_VALUE1='上班打卡'
+           or c.DATA_VALUE1='下班打卡'
+          AND DATE_FORMAT(a.INSERT_DATE
+            , '%y%m')=DATE_FORMAT( #{date}
+            , '%y%m')
+          AND a.USER_ID= #{userId} GROUP BY days) as times)) as attendanceTimes
+            , (
+        select #{daysOfMonth}- ((select count(*) from (SELECT DATE_FORMAT(a.INSERT_DATE, '%y%m%D') as days
+            FROM TAB_ATTENDANCE a
+            LEFT JOIN TAB_CLOCK_IN_TIME b ON a.CLOCK_IN_ID = b.ID AND b.ISDEL != 1
+            LEFT JOIN TAB_BASECODE c ON b.CLOCK_IN_TYPE = c.ID AND c.ISDEL != 1
+            WHERE a.ISDEL!=1
+            AND c.DATA_VALUE1='外勤打卡' or c.DATA_VALUE1='上班打卡' or c.DATA_VALUE1='下班打卡'
+            AND DATE_FORMAT(a.INSERT_DATE, '%y%m')=DATE_FORMAT(
+               #{date}, '%y%m')
+            AND a.USER_ID=
+               #{userId} GROUP BY days) as times)) as result) as absenteeism;
+    </sql>
+
+
+    <insert id="saveList" parameterType="java.util.List">
+        <include refid="saveListSql"></include>
+    </insert>
+
+
+    <sql id="saveListSql">
+        INSERT INTO TAB_ATTENDANCE_STATISTICS
+        (ID,USER_ID,DATA_MONTH,DATA_YEAR,LATE,LEAVE_EARLY,ATTENDANCE_TIMES,MISS_ATTENDANCE,ABSENTEEISM,WORK_OUTSIDE)
+        VALUES
+        <foreach collection="list" item="data" separator=",">
+            (
+            #{data.id},
+            #{data.userId},
+            #{data.dataMonth},
+            #{data.dataYear},
+            #{data.late},
+            #{data.leaveEarly},
+            #{data.attendanceTimes},
+            #{data.missAttendance},
+            #{data.absenteeism},
+            #{data.workOutSide}
+            )
+        </foreach>
+    </sql>
+
+
+    <select id="findAll" parameterType="java.util.Map"
+            resultType="com.njusc.npm.metadata.entity.TAttendanceStatisticsEntity">
+        <include refid="findAllSql"></include>
+    </select>
+
+    <sql id="findAllSql">
+        SELECT a.ID as id,
+        a.USER_ID as userId,
+        b.USER_NAME as userName,
+        a.DATA_YEAR as dataYear,
+        a.DATA_MONTH as dataMonth,
+        a.LATE as late,
+        a.AVERAGE_WORKING_HOURS as averageWorkingHours,
+        a.ATTENDANCE_DAYS as attendanceDays,
+        a.LEAVE_EARLY as leaveEarly,
+        a.ATTENDANCE_TIMES as attendanceTimes,
+        a.MISS_ATTENDANCE as missAttendance,
+        a.ABSENTEEISM as absenteeism,
+        a.WORK_OUTSIDE as workOutSide,
+        a.OVERTIME as overTime,
+        a.ISDEL as isdel,
+        a.INSERT_USER as insertUser,
+        a.INSERT_DATE as insertDate
+        FROM TAB_ATTENDANCE_STATISTICS a
+        LEFT JOIN TAB_USER b ON a.USER_ID = b.ID AND b.ISDEL != 1 AND b.USER_STATUS != 0
+        WHERE a.ISDEL!=1
+        <if test="null != userName and '' != userName">
+            and b.USER_NAME=#{userName}
+        </if>
+        <if test="null !=year and ''!=year">
+            and DATE_FORMAT(a.INSERT_DATE,'%Y')=DATE_FORMAT(CONCAT(#{year},'-12-31'),'%Y')
+        </if>
+        <if test="null !=month and ''!=month">
+            and DATE_FORMAT(a.INSERT_DATE,'%Y%m')=DATE_FORMAT(CONCAT(#{month},'-28'),'%Y%m')
+        </if>
+        ORDER BY a.INSERT_DATE DESC
+    </sql>
+</mapper>

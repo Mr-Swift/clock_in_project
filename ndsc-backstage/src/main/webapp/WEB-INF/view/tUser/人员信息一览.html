@@ -1,0 +1,509 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link href="images/default.css" rel="stylesheet" type="text/css">
+<link href="images/default/easyui.css" rel="stylesheet" type="text/css">
+<link href="images/fonts/font-awesome.min.css" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.easyui.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	 $("#search").click(function(){
+		 $(".search-hide").slideToggle(400)
+	 })
+	 $("#close-s").click(function(){
+		 $(".search-hide").slideToggle(400)
+	 });
+	  $("#search1").click(function(){
+		 $(".search-hide1").slideToggle(400)
+	 })
+	 $("#close-s1").click(function(){
+		 $(".search-hide1").slideToggle(400)
+	 })
+	 	 //标签切换
+		    var $li = $(".sw_b li");
+			var $div = $(".swb_b");		
+			$li.click(function(){
+			var $t = $(".sw_b li").index($(this));
+			$li.removeClass();
+			$(this).addClass("active");
+			$div.css("display","none");
+			$div.eq($t).css("display","block");
+			})
+});
+$(function () {
+            $('#ddlLine').combobox({
+                valueField: "id", //Value字段
+                textField: "text", //Text字段
+                multiple: true,
+                data:  [{ "id": 1, "text": "研发部" }, { "id": 2, "text": "商务部" }, { "id": 3, "text": "质量管理部" }, { "id": 4, "text": "实施部" }, { "id": 5, "text": "人事部" }, { "id": 6, "text": "财务部" }, { "id": 7, "text": "美工部" }, { "id": 8, "text": "需求部" }] ,
+                //  url: "tree_data2.json", //数据源
+                onClick: function (node, checked) {
+                    //让全选不显示
+                    $("#ddlLine").combobox("setText", $("#ddlLine").combobox("getText").toString().replace("全选,", ""));
+                }
+            });
+        })
+$(function () {
+            $('#ddlLine1').combobox({
+                valueField: "id", //Value字段
+                textField: "text", //Text字段
+                multiple: true,
+				data:  [{ "id": 1, "text": "部门经理" }, { "id": 2, "text": "高级开发工程师" }, { "id": 3, "text": "中级开发工程师" }, { "id": 4, "text": "初级开发工程师" }, { "id": 5, "text": "商务助理" }, { "id": 6, "text": "销售经理" }, { "id": 7, "text": "QA工程师" }, { "id": 8, "text": "高级测试工程师" }, { "id": 9, "text": "高级实施工程师" }, { "id": 10, "text": "人事助理" }, { "id": 11, "text": "出纳" }, { "id": 12, "text": "前端开发工程师" }, { "id": 13, "text": "高级UI工程师" }, { "id": 14, "text": "java工程师" }] ,
+                //  url: "tree_data2.json", //数据源
+                onClick: function (node, checked) {
+                    //让全选不显示
+                    $("#ddlLine1").combobox("setText", $("#ddlLine1").combobox("getText").toString().replace("全选,", ""));
+                }
+            });
+        })
+</script>
+<script type="text/javascript"> 
+         function 
+         del(){ 
+         if
+         (!confirm(
+         "是否确认删除该员工？"
+         )){ 
+         window.event.returnValue = false;}} 
+</script> 
+</head>
+
+<body>
+<!--数据展示区域外框，用于周边留空padding不可删除-->
+<div class="pd-zy20">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="pagesl">
+  <tr>
+    <td width="46%">当前位置：员工信息管理</td>
+  </tr>
+</table>
+ <div class="cx-bt">
+ <!--功能按钮-->
+ <div class="btn-bt">
+ <ul>
+ <li><a href="#">导出</a> <a href="#" onclick="$('#dlg').window('open')">新增</a></li>
+ </ul></div><!--end-->
+ <!--搜索-->
+  <div class="search1">
+ <ul>
+ <li>姓名：</li>
+ <li><input name="" type="text" style="width:70px;"></li>
+ <li>工号：</li>
+ <li><input name="" type="text" style="width:70px;"></li>
+ <li>部门：</li>
+ <li><select name="select2" id="select2" style="width: 100px">
+        <option>全部</option>
+        <option>商务部</option>
+        <option>研发部</option>
+        <option>质量管理部</option>
+        <option>实施部</option>
+        <option>人事部</option>
+        <option>财务部</option>
+       <option>美工部</option>
+      </select></li>
+ <li>岗位：</li>
+ <li><input name="" type="text" style="width:70px;"></li>
+ <li>当前状态：</li>
+ <li><select name="select2" id="select2" style="width: 100px">
+ <option>全部</option>
+        <option>离职</option>
+        <option>在职</option>
+      </select></li>
+ <li class="search_bt"><a href="#">查 询</a></li>
+ </ul>
+ </div>
+ </div>
+
+ <table width="100%" border="0" cellspacing="0" cellpadding="0" class="ss_table" style="margin-top:8px;">
+
+ <tr>
+ <th width="30"><input name="" type="checkbox" value="" /></th>
+ <th width="40">序号</th>
+ <th width="40">工号</th>
+ <th width="120">姓名</th>
+ <th width="120">部门</th>
+ <th width="120">岗位</th>
+ <th width="120">性别</th>
+ <th width="200">毕业院校</th>
+ <th width="120">学历</th>
+ <th width="120">当前状态</th>
+ <th width="120">联系方式</th>
+ <th width="120">操作</th>
+
+  <tr>
+    <td><input name="" type="checkbox" value="" /></td>
+    <td>1</td>
+    <td>A101</td>
+    <td>张三</td>
+    <td>研发部</td>
+    <td>高级开发工程师</td>
+    <td>男</td>
+    <td>金陵大学</td>
+    <td>本科</td>
+    <td>在职</td>
+    <td>15678945121</td>
+    <td class="cz-a"> <a onclick="$('#dlg').window('open')"><i class="fa fa-edit pd-r06"></i>修改</a> <a onclick="return del()"><i class="fa fa-close pd-r06"></i>删除</a></td>
+    </tr>
+  <tr class="ol">
+   <td><input name="" type="checkbox" value="" /></td>
+    <td>2</td>
+     <td>A101</td>
+    <td>张三</td>
+    <td>研发部</td>
+    <td>中级开发工程师</td>
+    <td>男</td>
+    <td>金陵大学</td>
+     <td>本科</td>
+    <td>在职</td>
+    <td>15678945121</td>
+    <td class="cz-a"><a onclick="$('#dlg').window('open')"><i class="fa fa-edit pd-r06"></i>修改</a> <a onclick="return del()"><i class="fa fa-close pd-r06"></i>删除</a></td>
+    </tr>
+  <tr>
+   <td><input name="" type="checkbox" value="" /></td>
+    <td>3</td>
+     <td>A101</td>
+    <td>张三</td>
+	<td>研发部</td>
+    <td>初级开发工程师</td>
+    <td>男</td>
+    <td>金陵大学</td>
+     <td>本科</td>
+    <td>在职</td>
+    <td>15678945121</td>
+    <td class="cz-a"><a onclick="$('#dlg').window('open')"><i class="fa fa-edit pd-r06"></i>修改</a> <a onclick="return del()"><i class="fa fa-close pd-r06"></i>删除</a></td>
+    </tr>
+  <tr class="ol">
+   <td><input name="" type="checkbox" value="" /></td>
+    <td>4</td>
+    <td>A101</td>
+    <td>张三</td>
+    <td>商务部</td>
+    <td>商务助理</td>
+    <td>男</td>
+    <td>金陵大学</td>
+     <td>本科</td>
+    <td>在职</td>
+    <td>15678945121</td>
+    <td class="cz-a"> <a onclick="$('#dlg').window('open')"><i class="fa fa-edit pd-r06"></i>修改</a> <a onclick="return del()"><i class="fa fa-close pd-r06"></i>删除</a></td>
+    </tr>
+    <tr>
+   <td><input name="" type="checkbox" value="" /></td>
+    <td>5</td>
+    <td>A101</td>
+    <td>张三</td>
+    <td>商务部</td>
+    <td>销售经理</td>
+    <td>男</td>
+    <td>金陵大学</td>
+     <td>本科</td>
+    <td>在职</td>
+    <td>15678945121</td>
+    <td class="cz-a"><a onclick="$('#dlg').window('open')"><i class="fa fa-edit pd-r06"></i>修改</a> <a onclick="return del()"><i class="fa fa-close pd-r06"></i>删除</a></td>
+    </tr>
+  <tr class="ol">
+   <td><input name="" type="checkbox" value="" /></td>
+    <td>6</td>
+     <td>A101</td>
+    <td>张三</td>
+    <td>研发部</td>
+    <td>部门经理</td>
+    <td>男</td>
+    <td>金陵大学</td>
+     <td>本科</td>
+    <td>在职</td>
+    <td>15678945121</td>
+    <td class="cz-a"><a onclick="$('#dlg').window('open')"><i class="fa fa-edit pd-r06"></i>修改</a> <a onclick="return del()"><i class="fa fa-close pd-r06"></i>删除</a></td>
+    </tr>
+    <tr>
+    <td><input name="" type="checkbox" value="" /></td>
+    <td>7</td>
+    <td>A101</td>
+    <td>张三</td>
+    <td>质量管理部</td>
+    <td>QA工程师</td>
+    <td>男</td>
+    <td>金陵大学</td>
+     <td>本科</td>
+    <td>在职</td>
+    <td>15678945121</td>
+    <td class="cz-a"><a onclick="$('#dlg').window('open')"><i class="fa fa-edit pd-r06"></i>修改</a> <a onclick="return del()"><i class="fa fa-close pd-r06"></i>删除</a></td>
+    </tr>
+  <tr class="ol">
+   <td><input name="" type="checkbox" value="" /></td>
+    <td>8</td>
+    <td>A101</td>
+    <td>张三</td>
+    <td>质量管理部</td>
+    <td>高级测试工程师</td>
+    <td>男</td>
+    <td>金陵大学</td>
+     <td>本科</td>
+    <td>在职</td>
+    <td>15678945121</td>
+    <td class="cz-a"><a onclick="$('#dlg').window('open')"><i class="fa fa-edit pd-r06"></i>修改</a> <a onclick="return del()"><i class="fa fa-close pd-r06"></i>删除</a></td>
+    </tr>
+    <tr>
+   <td><input name="" type="checkbox" value="" /></td>
+    <td>9</td>
+     <td>A101</td>
+    <td>张三</td>
+    <td>实施部</td>
+    <td>高级实施工程师</td>
+    <td>男</td>
+    <td>金陵大学</td>
+     <td>本科</td>
+    <td>在职</td>
+    <td>15678945121</td>
+    <td class="cz-a"><a onclick="$('#dlg').window('open')"><i class="fa fa-edit pd-r06"></i>修改</a> <a onclick="return del()"><i class="fa fa-close pd-r06"></i>删除</a></td>
+    </tr>
+  <tr class="ol">
+   <td><input name="" type="checkbox" value="" /></td>
+    <td>10</td>
+    <td>A101</td>
+    <td>张三</td>
+    <td>人事部</td>
+    <td>人事助理</td>
+    <td>男</td>
+    <td>金陵大学</td>
+     <td>本科</td>
+    <td>在职</td>
+    <td>15678945121</td>
+    <td class="cz-a"><a onclick="$('#dlg').window('open')"><i class="fa fa-edit pd-r06"></i>修改</a> <a onclick="return del()"><i class="fa fa-close pd-r06"></i>删除</a></td>
+    </tr>
+    <tr>
+    <td><input name="" type="checkbox" value="" /></td>
+    <td>11</td>
+    <td>A101</td>
+    <td>张三</td>
+    <td>财务部</td>
+    <td>出纳</td>
+    <td>男</td>
+    <td>金陵大学</td>
+     <td>本科</td>
+    <td>在职</td>
+    <td>15678945121</td>
+    <td class="cz-a"><a onclick="$('#dlg').window('open')"><i class="fa fa-edit pd-r06"></i>修改</a> <a onclick="return del()"><i class="fa fa-close pd-r06"></i>删除</a></td>
+    </tr>
+  <tr class="ol">
+    <td><input name="" type="checkbox" value="" /></td>
+    <td>12</td>
+    <td>A101</td>
+    <td>张三</td>
+    <td>美工部</td>
+    <td>前端开发工程师</td>
+    <td>男</td>
+    <td>金陵大学</td>
+     <td>本科</td>
+    <td>在职</td>
+    <td>15678945121</td>
+    <td class="cz-a"><a onclick="$('#dlg').window('open')"><i class="fa fa-edit pd-r06"></i>修改</a> <a onclick="return del()"><i class="fa fa-close pd-r06"></i>删除</a></td>
+    </tr>
+    <tr>
+    <td><input name="" type="checkbox" value="" /></td>
+    <td>13</td>
+     <td>A101</td>
+    <td>张三</td>
+    <td>美工部</td>
+    <td>高级UI工程师</td>
+    <td>男</td>
+    <td>金陵大学</td>
+     <td>本科</td>
+    <td>在职</td>
+    <td>15678945121</td>
+    <td class="cz-a"><a onclick="$('#dlg').window('open')"><i class="fa fa-edit pd-r06"></i>修改</a> <a onclick="return del()"><i class="fa fa-close pd-r06"></i>删除</a></td>
+    </tr>
+  <tr class="ol">
+   <td><input name="" type="checkbox" value="" /></td>
+    <td>14</td>
+    <td>A101</td>
+    <td>张三</td>
+    <td>研发部</td>
+    <td>java工程师</td>
+    <td>男</td>
+    <td>金陵大学</td>
+     <td>本科</td>
+    <td>在职</td>
+    <td>15678945121</td>
+    <td class="cz-a"><a onclick="$('#dlg').window('open')"><i class="fa fa-edit pd-r06"></i>修改</a> <a onclick="return del()"><i class="fa fa-close pd-r06"></i>删除</a></td>
+    </tr>
+    <tr>
+   <td><input name="" type="checkbox" value="" /></td>
+    <td>15</td>
+    <td>A101</td>
+    <td>张三</td>
+    <td>研发部</td>
+    <td>java工程师</td>
+    <td>男</td>
+    <td>金陵大学</td>
+     <td>本科</td>
+    <td>在职</td>
+    <td>15678945121</td>
+    <td class="cz-a"><a onclick="$('#dlg').window('open')"><i class="fa fa-edit pd-r06"></i>修改</a> <a onclick="return del()"><i class="fa fa-close pd-r06"></i>删除</a></td>
+    </tr>
+
+</table>
+
+ <table width="100%" border="0" cellpadding="0" cellspacing="0" class="fy">
+  <tr>
+    <td height="40" align="right">当前第 1 页 共 14 页 <a href="#" class="active">1</a> <a href="#">2</a> <a href="#">3</a> <a href="#">4</a> <a href="#">5</a> <a href="#">6</a> <a href="#">7</a> <a href="#">8</a> <a href="#">9</a> <a href="#">10</a> 跳转到 </td>
+    <td width="40" align="center"><input name="textfield8" type="text" class="inp_w4" id="textfield8" /></td>
+    <td width="35" align="left"><img src="images/bt_go.gif" width="26" height="24" /></td>
+  </tr>
+</table>
+</div>
+
+<div id="dlg" class="easyui-dialog" title="新增员工"  style="width:790px; height:400px;" closed="true" buttons="#dlg-buttons">
+
+  <table border="0" width="100%" cellpadding="0" cellspacing="0" class="bd-tc-s">
+   <tr>
+      <td align="right" class="titley" colspan="4">基础信息</td>
+    </tr>
+    <tr>
+
+      <td align="right" class="title"><span>*</span>工号：</td>
+      <td align="left"><input type="text" style="width: 193px;" /></td> 
+       <td width="130" align="right" class="title"><span>*</span>姓名：</td>
+      <td align="left"><input type="text" style="width: 193px;" name="textfield14" id="textfield15" /></td>
+    </tr>
+    <tr>
+    
+      <td width="132" align="right" class="title"><span>*</span>性别：</td>
+      <td align="left"><select name="select2" id="select2" style="width: 200px">
+        <option>男</option>
+        <option>女</option>
+      </select></td>
+            <td align="right" class="title"><span>*</span>联系方式：</td>
+      <td align="left"><input type="text" style="width: 193px;" /></td>
+      </tr>
+         <tr>
+      <td align="right" class="title"><span>*</span>部门：</td>
+      <td align="left"><select name="select2" id="select2" style="width: 200px">
+        <option>商务部</option>
+        <option>研发部</option>
+        <option>质量管理部</option>
+        <option>实施部</option>
+        <option>人事部</option>
+        <option>财务部</option>
+       <option>美工部</option>
+      </select></td>
+      <td align="right" class="title"><span>*</span>是否部门经理：</td>
+      <td align="left">
+    <select name="select2" id="select2" style="width: 200px">
+        <option>否</option>
+        <option>是</option>
+      </select>
+       </td>
+    </tr>
+    <tr>
+      <td align="right" class="title"><span>*</span>岗位：</td>
+      <td align="left" colspan="3">
+     <select id="ddlLine1" class="easyui-combobox" style="width:384px;" data-options="editable:false,panelHeight:180"></select>
+       </td>
+    </tr>
+    <tr>
+      
+      
+
+    </tr>
+    <tr>
+      
+      <td align="right" class="title">基本工资：</td>
+      <td align="left"><input type="text" style="width: 193px;" /></td> 
+        <td align="right" class="title">当前状态：</td>
+      <td align="left"><select name="select2" id="select2" style="width: 200px">
+        <option>在职</option>
+        <option>离职</option>
+      </select></td>
+    </tr>
+
+    <tr>
+      <td align="right" class="titley" colspan="4">身份信息</td>
+    </tr>
+      <tr>
+      <td align="right" class="title">身份证号：</td>
+      <td align="left"><input type="text" style="width: 193px;" /></td>
+      <td align="right" class="title">出生日期：</td>
+      <td align="left"><input type="text" style="width: 193px;" /></td>
+    </tr>
+     <tr>
+      <td align="right" class="title">民族：</td>
+      <td align="left"><input type="text" style="width: 193px;" /></td>
+      <td align="right" class="title">籍贯：</td>
+      <td align="left"><input type="text" style="width: 193px;" /></td>
+    </tr>
+    <tr>
+      <td align="right" class="title">户籍地址：</td>
+      <td align="left" colspan="3"><input type="text" style="width: 493px;" /></td>
+    </tr>
+    <tr>
+      <td align="right" class="title">居住地址：</td>
+      <td align="left" colspan="3"><input type="text" style="width: 493px;" /></td>
+    </tr>
+     <tr>
+      <td align="right" class="title"><span>*</span>婚育状态：</td>
+      <td align="left" colspan="3"><select name="select2" id="select2" style="width: 200px">
+        <option>未婚</option>
+        <option>已婚未育</option>
+        <option>已婚已育</option>
+        <option>离异</option>
+      </select></td>
+    </tr>
+     <tr>
+      <td align="right" class="title">紧急联系人：</td>
+      <td align="left"><input type="text" style="width: 193px;" /></td>
+      <td align="right" class="title">紧急联系人电话：</td>
+      <td align="left"><input type="text" style="width: 193px;" /></td>
+    </tr>
+    <tr>
+      <td align="right" class="titley" colspan="4">学历信息</td>
+    </tr>
+     <tr>
+      <td align="right" class="title"><span>*</span>毕业院校：</td>
+      <td align="left"><input type="text" style="width: 193px;" /></td>
+      <td align="right" class="title">专业名称：</td>
+      <td align="left"><input type="text" style="width: 193px;" /></td>
+    </tr>
+      <tr>
+      <td align="right" class="title">毕业时间：</td>
+      <td align="left"><input type="text" style="width: 193px;" /></td>
+      <td align="right" class="title">最高学历：</td>
+      <td align="left"><select name="select2" id="select2" style="width: 200px">
+        <option>高中</option>
+        <option>大专</option>
+        <option>本科</option>
+        <option>研究生</option>
+      </select></td>
+    </tr>
+      <tr>
+      <td align="right" class="title"><span>*</span>入职日期：</td>
+      <td align="left"><input type="text" style="width: 193px;" /></td>
+      <td align="right" class="title">转正日期：</td>
+      <td align="left"><input type="text" style="width: 193px;" /></td>
+    </tr>
+     <tr>
+      <td align="right" class="title">第一期合同期限：</td>
+      <td align="left"><input type="text" style="width: 83px;" />~<input type="text" style="width: 83px;" /></td>
+      <td align="right" class="title">第二期合同期限：</td>
+      <td align="left"><input type="text" style="width: 83px;" />~<input type="text" style="width: 83px;" /></td>
+    </tr>
+     <tr>
+      <td align="right" class="title">第三期合同期限：</td>
+      <td align="left" colspan="3"><input type="text" style="width: 83px;" />~<input type="text" style="width: 83px;" /></td>
+    </tr>
+    </table>
+</div>
+<div id="dlg-buttons">
+		<table cellpadding="0" cellspacing="0" style="width:100%">
+			<tr>
+				<td align="center" height="30">
+					<a href="#" class="dailog-bt" onclick="$('#dlg').window('close')">保 存</a><a href="#" class="dailog-bt" onclick="javascript:$('#dlg').dialog('close')">取 消</a>
+				</td>
+			</tr>
+		</table>
+</div>
+
+
+</body>
+</html>

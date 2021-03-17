@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.njusc.npm.metadata.dao.mapper.TAttendanceTimeDao">
+    <!--    检索出所有的考勤类型-->
+    <select id="getAttendanceType" resultType="com.njusc.npm.metadata.entity.TBasecodeEntity">
+        <include refid="getAttendanceTypeSql"/>
+    </select>
+
+    <!--    检索出考勤时间管理页面的所有数据-->
+    <select id="getAll" resultType="com.njusc.npm.metadata.entity.TAttendanceTimeEntity">
+        <include refid="getAllSql"/>
+    </select>
+
+    <sql id="getAllSql">
+        SELECT a.ID AS id,
+               a.CLOCK_IN_NAME AS clockInName,
+               a.CLOCK_IN_TIME AS clockInTime,
+               a.CLOCK_IN_REMARK AS clockInRemark,
+               a.CLOCK_IN_TYPE AS clockInType,
+               b.DATA_VALUE1 AS clockInTypeStr,
+               a.INSERT_USER AS insertUser,
+               a.INSERT_DATE AS insertDate
+        FROM TAB_CLOCK_IN_TIME a
+                 LEFT JOIN TAB_BASECODE b on a.CLOCK_IN_TYPE = b.ID
+        WHERE a.ISDEL != 1 AND b.ISDEL!=1
+AND b.BASE_TYPE='CLOCK_IN' AND b.BASE_TYPE_NAME='打卡类型'
+    </sql>
+
+    <sql id="getAttendanceTypeSql">
+        SELECT ID             as id,
+               BASE_TYPE      as baseType,
+               BASE_TYPE_NAME as baseTypeName,
+               DATA_KEY       as dataKey,
+               DATA_VALUE1    as dataValue1,
+               DATA_VALUE2    as dataValue2,
+               DATA_VALUE3    as dataValue3,
+               ISDEL          as isdel,
+               INSERT_DATE    as insertDate,
+               INSERT_USER    as insertUser,
+               PARENT_ID      as parentId
+        FROM TAB_BASECODE
+        WHERE ISDEL != 1
+  AND BASE_TYPE = 'CLOCK_IN'
+  AND BASE_TYPE_NAME = '打卡类型'
+        ORDER BY DATA_KEY ASC;
+    </sql>
+
+
+
+    <select id="find" resultType="com.njusc.npm.metadata.entity.TAttendanceTimeEntity" parameterType="java.util.Map">
+        <include refid="findSql"/>
+    </select>
+
+    <sql id="findSql">
+        SELECT a.ID AS id,
+               a.CLOCK_IN_NAME AS clockInName,
+               a.CLOCK_IN_TIME AS clockInTime,
+               a.CLOCK_IN_REMARK AS clockInRemark,
+               a.CLOCK_IN_TYPE AS clockInType,
+               b.DATA_VALUE1 AS clockInTypeStr,
+               a.INSERT_USER AS insertUser,
+               a.INSERT_DATE AS insertDate
+        FROM TAB_CLOCK_IN_TIME a
+                 LEFT JOIN TAB_BASECODE b on a.CLOCK_IN_TYPE = b.ID
+        WHERE a.ISDEL != 1 AND b.ISDEL!=1
+AND b.BASE_TYPE='CLOCK_IN' AND b.BASE_TYPE_NAME='打卡类型'
+<if test="null!=id and ''!=id">
+    and a.ID=#{id}
+</if>
+    </sql>
+
+    <insert id="save" parameterType="com.njusc.npm.metadata.entity.TAttendanceTimeEntity">
+        <include refid="saveSql"></include>
+    </insert>
+
+    <sql id="saveSql">
+        INSERT INTO TAB_CLOCK_IN_TIME
+        (ID, CLOCK_IN_TIME, CLOCK_IN_NAME, CLOCK_IN_REMARK, CLOCK_IN_TYPE, INSERT_USER)
+        VALUES
+        (
+         #{id},
+         #{clockInTime},
+         #{clockInName},
+         #{clockInRemark},
+         #{clockInType},
+         #{insertUser}
+        )
+    </sql>
+
+    <update id="update" parameterType="com.njusc.npm.metadata.entity.TAttendanceTimeEntity">
+        <include refid="updateSql"></include>
+    </update>
+
+    <sql id="updateSql">
+        UPDATE TAB_CLOCK_IN_TIME
+        SET CLOCK_IN_TIME=#{clockInTime},
+            CLOCK_IN_NAME=#{clockInName},
+            CLOCK_IN_REMARK=#{clockInRemark},
+            CLOCK_IN_TYPE=#{clockInType},
+            INSERT_USER= #{insertUser},
+            INSERT_DATE=#{insertDate}
+        WHERE ID=#{id}
+    </sql>
+
+    <delete id="delete" parameterType="java.lang.String">
+        <include refid="deleteSql"></include>
+    </delete>
+
+    <sql id="deleteSql">
+        UPDATE TAB_CLOCK_IN_TIME SET ISDEL=1 WHERE ID=#{id};
+    </sql>
+
+
+
+
+
+</mapper>

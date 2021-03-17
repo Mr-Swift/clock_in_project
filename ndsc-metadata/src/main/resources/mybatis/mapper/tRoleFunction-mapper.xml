@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njusc.npm.metadata.dao.mapper.TRoleFunctionDao">
+    <select id="find" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TRoleFunctionEntity">
+        <include refid="findSql"/>
+    </select>
+
+
+    <select id="findAll" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TRoleFunctionEntity">
+        <include refid="findSql"/>
+        order by INSERT_DATE desc
+    </select>
+
+    <select id="getRoleFunctionByRoleId" parameterType="java.util.List" resultType="com.njusc.npm.metadata.entity.TRoleFunctionEntity">
+        select
+         t.id id,
+         t.role_id roleid,
+         t.function_id functionId,
+         t.INSERT_DATE insertTime,
+         t.insert_user insertUser
+         FROM
+         TAB_ROLE_FUNCTION t
+         WHERE t.isdel=0 and t.role_id=#{id}
+    </select>
+
+    <insert id="save" parameterType="com.njusc.npm.metadata.entity.TRoleFunctionEntity">
+        insert
+        <include refid="saveSql"/>
+        values (
+        #{ id},
+        #{ roleId},
+        #{ functionId},
+        #{ insertTime},
+        #{ insertUser},
+        #{isdel}
+        )
+    </insert>
+
+    <insert id="saveAll" parameterType="java.util.List">
+        insert
+        <include refid="saveSql"/>
+        values
+        <foreach collection="list" item="data" separator=",">
+            (
+            #{data.id},
+            #{data.roleId},
+            #{data.functionId},
+            #{data.insertTime},
+            #{data.insertUser},
+            #{data.isdel}
+            )
+        </foreach>
+
+    </insert>
+
+    <update id="updateAll" parameterType="java.util.List">
+
+        <foreach collection="list" item="data" separator=";">
+            update TAB_ROLE_FUNCTION set
+            role_id = #{data.roleId},
+            function_id = #{data.functionId},
+            isdel=#{data.isdel}
+            where id = #{data.id}
+        </foreach>
+
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        <include refid="deleteSql"/>
+        where
+        <!-- 单个参数，使用内置对象判断 -->
+        <if test="null != _parameter and '' != _parameter">
+            id = #{id}
+        </if>
+    </delete>
+
+    <delete id="deleteFunction" parameterType="java.lang.String">
+        update TAB_ROLE_FUNCTION
+        set
+            isdel=1
+        where
+               role_id = #{roleId}
+
+    </delete>
+
+
+    <delete id="deleteAll" parameterType="java.lang.String">
+
+        <include refid="deleteSql"/>
+        where
+        id in
+        <foreach close=")" collection="list" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <update id="update" parameterType="com.njusc.npm.metadata.entity.TRoleFunctionEntity">
+    update  TAB_ROLE_FUNCTION
+    set
+                                    role_id = #{roleId},
+                                function_id = #{functionId},
+                                                   isdel=#{isdel}
+    where  id = #{id}
+</update>
+
+    <sql id="saveSql">
+     into TAB_ROLE_FUNCTION
+    (
+                        id,
+                                 role_id,
+                                 function_id,
+                                             INSERT_DATE,
+                                 insert_user,
+                   isdel
+    )
+</sql>
+
+    <sql id="deleteSql">
+    update TAB_ROLE_FUNCTION set isdel=1
+</sql>
+
+    <sql id="findSql">
+        select
+        a.id id,
+        a.role_id roleId,
+        a.function_id functionId,
+        a.INSERT_DATE insertTime,
+        a.insert_user insertUser,
+        a.isdel
+        from TAB_ROLE_FUNCTION a
+        where a.isdel=0
+        <if test="null != id and '' != id">
+            and a.id = #{id}
+        </if>
+        <if test="null != roleId and '' != roleId">
+            and a.role_id = #{roleId}
+        </if>
+        <if test="null != functionId and '' != functionId">
+            and a.function_id = #{functionId}
+        </if>
+
+    </sql>
+
+</mapper>

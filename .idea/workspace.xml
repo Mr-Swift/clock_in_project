@@ -1,0 +1,803 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="backstage:war exploded" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="24f1cf7b-7852-444e-a95d-21612c096f37" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/webContexts.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/GoOutController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/GoToWorkController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/LeaveApplicationController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/LeaveReviewController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/OffWorkController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/TAttendanceStatisticsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/TAttendanceTimeController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/attendance/addAttendanceTime.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/attendance/attendanceStatistics.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/attendance/attendanceTime.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/clockIn/goOut.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/clockIn/goToWork.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/clockIn/offWork.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/leave/addLeaveApplication.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/leave/leaveApplication.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/leave/leaveReview.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/tUser/editUser.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/frame/images/background.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/frame/jedate-6.0.2/jquery-1.7.2.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/frame/jedate-6.0.2/jquery.jedate.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/frame/jedate-6.0.2/jquery.jedate.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/frame/jedate-6.0.2/skin/jedate.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/frame/jedate-6.0.2/test/jeDate-test.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/frame/jedate-6.0.2/test/jeDate-test.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/frame/jedate-6.0.2/test/jedate-test.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/TAttendanceDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/TAttendanceStatisticsDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/TAttendanceTimeDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/TLeaveDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TAttendanceEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TAttendanceStatisticsEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TAttendanceTimeEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TLeaveEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/TAttendanceTime-mapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tAttendance-mapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tAttendanceStatistics-mapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tLeave-mapper.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/TAttendanceService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/TAttendanceStatisticsService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/TAttendanceTimeService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/TLeaveService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/TAttendanceServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/TAttendanceStatisticsServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/TAttendanceTimeServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/TLeaveServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-utils/src/main/java/com/njusc/npm/utils/util/GetPropertiesUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-utils/src/main/java/com/njusc/npm/utils/util/RSAUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/ndsc-utils/src/main/resources/system.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/backstage_war_exploded.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/artifacts/backstage_war_exploded.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/PtProInfoController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/PtProInfoPostUserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/PtProPlanController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/PtProRealWorkController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/TDeptController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/TDeptController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/TFuncitonController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/TFuncitonController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/TLogController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/TLogController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/TPostManageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/TPostManageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/TUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/controller/TUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/quartz/QuartzController.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/quartz/QuartzController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/security/shiro/SpringShiroRealm.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/java/com/njusc/npm/app/security/shiro/SpringShiroRealm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/resources/spring/app-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/resources/spring/app-config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/resources/spring/scheduler-config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/resources/spring/scheduler-config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/resources/system.properties" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/resources/system.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/login.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/login.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/main.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/main.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/ptProInfo/editItems.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/ptProInfo/modify.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/ptProInfo/ptproinfo.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/ptProInfo/upholdper.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/ptProPlan/deptPeoplePlan.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/ptProPlan/ptProPlanX.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/ptProPlan/ptProPlanZ.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/ptProRealWork/personConfirm.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/ptProRealWork/ptProRealWorkQuality.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/ptProRealWork/ptProWorkConfirm.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/ptProRealWork/ptprorealworkb.jsp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/tLog/log.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/tLog/log.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/tUser/userinfo.jsp" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/tUser/userinfo.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/frame/images/default.css" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/frame/images/default.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/PtProInfoDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/PtProInfoPostUserDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/PtProPlanDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/PtProRealWorkDao.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/TBasecodeDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/TBasecodeDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/TDeptDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/TDeptDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/TPostManageDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/TPostManageDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/TUserDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/dao/mapper/TUserDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/PtProInfoEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/PtProInfoPostUserEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/PtProPlanEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/PtProRealWorkEntity.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TBasecodeEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TBasecodeEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TDeptEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TDeptEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TFuncitonEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TFuncitonEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TLogEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TLogEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TPostManageEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TPostEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TRoleEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TRoleEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TRoleFunctionEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TRoleFunctionEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TUserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TUserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TUserPostEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TUserPostEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TUserRoleEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/java/com/njusc/npm/metadata/entity/TUserRoleEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/ptProInfo-mapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/ptProInfoPostUser-mapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/ptProPlan-mapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/ptProRealWork-mapper.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tBasecode-mapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tBasecode-mapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tDept-mapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tDept-mapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tFunciton-mapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tFunciton-mapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tLog-mapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tLog-mapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tPostManage-mapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tPost-mapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tRole-mapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tRole-mapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tRoleFunction-mapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tRoleFunction-mapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tUser-mapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tUser-mapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tUserRole-mapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-metadata/src/main/resources/mybatis/mapper/tUserRole-mapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/PtProInfoPostUserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/PtProInfoService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/PtProPlanService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/PtProRealWorkService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/TBasecodeService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/TBasecodeService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/TDeptService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/TDeptService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/TPostManageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/TPostManageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/TUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/TUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/PtProInfoPostUserServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/PtProInfoServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/PtProPlanServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/PtProRealWorkServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/TBasecodeServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/TBasecodeServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/TDeptServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/TDeptServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/TPostManageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/TPostManageServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/TRoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/TRoleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/TUserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-service/src/main/java/com/njusc/npm/service/impl/TUserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-utils/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-utils/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ndsc-utils/src/main/java/com/njusc/base/ApiResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/ndsc-utils/src/main/java/com/njusc/base/ApiResult.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="spring-beans.schema" />
+        <option value="Jsp File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="ProjectId" id="1nrwC22Gc2UPjo3GtWbpYLXKDSq" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="mysql" />
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="codeWithMe.voiceChat.enabledByDefault" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/frame" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/frame" />
+      <recent name="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/attendance" />
+      <recent name="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/WEB-INF/view/clockIn" />
+      <recent name="$PROJECT_DIR$/ndsc-utils/src/main/java/com/njusc/npm/utils/util" />
+      <recent name="$PROJECT_DIR$/ndsc-utils/src/main/resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/frame/images" />
+      <recent name="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/frame/My97DatePicker/images" />
+      <recent name="$PROJECT_DIR$/ndsc-utils/src/main/java/com/njusc/npm/utils/util" />
+      <recent name="$PROJECT_DIR$/ndsc-backstage/src/main/webapp/frame/js" />
+    </key>
+  </component>
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="page" />
+      <command value="mvn clean" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Tomcat Server.Tomcat 7.0.96">
+    <configuration name="AesRsa" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.njusc.npm.utils.util.wustrive.AesRsa" />
+      <module name="ndsc-utils" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.njusc.npm.utils.util.wustrive.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GetPropertiesUtil" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.njusc.npm.utils.util.GetPropertiesUtil" />
+      <module name="ndsc-utils" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.njusc.npm.utils.util.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="RSAUtil" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.njusc.npm.utils.util.RSAUtil" />
+      <module name="ndsc-utils" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.njusc.npm.utils.util.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Tomcat 7.0.96" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 7.0.96" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+      <option name="OPEN_IN_BROWSER_URL" value="http://localhost:8081/backstage_war_exploded/" />
+      <option name="BROWSER_ID" value="98ca6316-2f89-46d9-a9e5-fa9e2b0625b3" />
+      <option name="UPDATE_ON_FRAME_DEACTIVATION" value="true" />
+      <option name="UPDATE_CLASSES_ON_FRAME_DEACTIVATION" value="true" />
+      <deployment>
+        <artifact name="backstage:war exploded">
+          <settings>
+            <option name="CONTEXT_PATH" value="/backstage_war_exploded" />
+          </settings>
+        </artifact>
+      </deployment>
+      <server-settings>
+        <option name="BASE_DIRECTORY_NAME" value="62a848b7-9fe7-4bd0-a961-909d65f912c3" />
+        <option name="HTTP_PORT" value="8081" />
+        <option name="JNDI_PORT" value="1091" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="Tomcat" />
+      <predefined_log_file enabled="true" id="Tomcat Catalina" />
+      <predefined_log_file id="Tomcat Manager" />
+      <predefined_log_file id="Tomcat Host Manager" />
+      <predefined_log_file id="Tomcat Localhost Access" />
+      <RunnerSettings RunnerId="Debug">
+        <option name="DEBUG_PORT" value="52406" />
+      </RunnerSettings>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Cover">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Debug">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Profile">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+        <option name="BuildArtifacts" enabled="true">
+          <artifact name="backstage:war exploded" />
+        </option>
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.RSAUtil" />
+        <item itemvalue="Application.GetPropertiesUtil" />
+        <item itemvalue="Application.AesRsa" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>$USER_HOME$/.subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="24f1cf7b-7852-444e-a95d-21612c096f37" name="Default Changelist" comment="" />
+      <created>1612161385782</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1612161385782</updated>
+      <workItem from="1612161386944" duration="27746000" />
+      <workItem from="1612226041823" duration="41978000" />
+      <workItem from="1612311893556" duration="25740000" />
+      <workItem from="1612340952406" duration="3337000" />
+      <workItem from="1612400608703" duration="20746000" />
+      <workItem from="1612486720355" duration="19178000" />
+      <workItem from="1612657838418" duration="26311000" />
+      <workItem from="1612751577767" duration="2108000" />
+      <workItem from="1612754719358" duration="825000" />
+      <workItem from="1612762628855" duration="6287000" />
+      <workItem from="1612837091275" duration="134000" />
+      <workItem from="1612838441618" duration="1548000" />
+      <workItem from="1612854009083" duration="5222000" />
+      <workItem from="1612918626460" duration="6300000" />
+      <workItem from="1613098895890" duration="291000" />
+      <workItem from="1613100121210" duration="608000" />
+      <workItem from="1613120088450" duration="832000" />
+      <workItem from="1613540530355" duration="507000" />
+      <workItem from="1613607947908" duration="20206000" />
+      <workItem from="1613639354523" duration="55000" />
+      <workItem from="1613694704173" duration="3531000" />
+      <workItem from="1613725654463" duration="480000" />
+      <workItem from="1613727065082" duration="401000" />
+      <workItem from="1613733920752" duration="43000" />
+      <workItem from="1613734059638" duration="2062000" />
+      <workItem from="1613742789463" duration="820000" />
+      <workItem from="1613781741597" duration="1223000" />
+      <workItem from="1613883652189" duration="3057000" />
+      <workItem from="1613960706127" duration="769000" />
+      <workItem from="1613964407256" duration="293000" />
+      <workItem from="1613978500043" duration="749000" />
+      <workItem from="1614060805885" duration="64000" />
+      <workItem from="1614069594530" duration="1178000" />
+      <workItem from="1614135352863" duration="1501000" />
+      <workItem from="1614241992251" duration="2262000" />
+      <workItem from="1614299517434" duration="328000" />
+      <workItem from="1614309660414" duration="520000" />
+      <workItem from="1614317648632" duration="2000000" />
+      <workItem from="1614325666831" duration="755000" />
+      <workItem from="1614579087317" duration="298000" />
+      <workItem from="1614652806460" duration="1272000" />
+      <workItem from="1614669658860" duration="3256000" />
+      <workItem from="1614827357046" duration="248000" />
+      <workItem from="1615271096729" duration="2273000" />
+      <workItem from="1615276917533" duration="1078000" />
+      <workItem from="1615281707109" duration="454000" />
+      <workItem from="1615337857391" duration="1474000" />
+      <workItem from="1615358969138" duration="1824000" />
+      <workItem from="1615366568218" duration="680000" />
+      <workItem from="1615449914457" duration="2413000" />
+      <workItem from="1615452874627" duration="2000" />
+      <workItem from="1615514064943" duration="5732000" />
+      <workItem from="1615537572538" duration="939000" />
+      <workItem from="1615539575824" duration="1617000" />
+      <workItem from="1615791783236" duration="37000" />
+      <workItem from="1615797241752" duration="1548000" />
+      <workItem from="1615951899163" duration="829000" />
+      <workItem from="1615966496119" duration="2000" />
+      <workItem from="1615966577341" duration="431000" />
+      <workItem from="1616030764288" duration="55000" />
+      <workItem from="1616030858274" duration="34000" />
+      <workItem from="1616031704853" duration="8474000" />
+      <workItem from="1616049364005" duration="13000" />
+      <workItem from="1616049406087" duration="8508000" />
+      <workItem from="1616115114986" duration="20506000" />
+      <workItem from="1616374945088" duration="14040000" />
+      <workItem from="1616460038715" duration="11346000" />
+      <workItem from="1616509060695" duration="326000" />
+      <workItem from="1616547089520" duration="596000" />
+      <workItem from="1616552162287" duration="6007000" />
+      <workItem from="1616563040853" duration="15252000" />
+      <workItem from="1616656431421" duration="271000" />
+      <workItem from="1616656849575" duration="185000" />
+      <workItem from="1616739763930" duration="2061000" />
+      <workItem from="1616831745103" duration="44000" />
+      <workItem from="1616832000339" duration="41000" />
+      <workItem from="1616904722359" duration="3915000" />
+      <workItem from="1616980746073" duration="21638000" />
+      <workItem from="1617006293808" duration="3449000" />
+      <workItem from="1617028651476" duration="2517000" />
+      <workItem from="1617074747412" duration="2648000" />
+      <workItem from="1617083297032" duration="600000" />
+      <workItem from="1617152307927" duration="25847000" />
+      <workItem from="1617208146941" duration="3668000" />
+      <workItem from="1617238455461" duration="7067000" />
+      <workItem from="1617277165983" duration="954000" />
+      <workItem from="1617325048043" duration="2391000" />
+      <workItem from="1617329047566" duration="4944000" />
+      <workItem from="1617375792016" duration="183000" />
+      <workItem from="1617594059762" duration="1545000" />
+      <workItem from="1617597605400" duration="833000" />
+      <workItem from="1617602292768" duration="1794000" />
+      <workItem from="1617671750630" duration="1168000" />
+      <workItem from="1617690590351" duration="78000" />
+      <workItem from="1617698370735" duration="901000" />
+      <workItem from="1617870375053" duration="7953000" />
+      <workItem from="1617945313139" duration="9083000" />
+      <workItem from="1618046365830" duration="6508000" />
+      <workItem from="1618118568909" duration="6025000" />
+      <workItem from="1618204008111" duration="1679000" />
+      <workItem from="1618740889279" duration="407000" />
+      <workItem from="1618800451235" duration="13549000" />
+      <workItem from="1618836032638" duration="12299000" />
+      <workItem from="1618878942639" duration="10031000" />
+      <workItem from="1618917885129" duration="8416000" />
+      <workItem from="1618981329588" duration="17167000" />
+      <workItem from="1619019469277" duration="4183000" />
+      <workItem from="1619056032852" duration="3438000" />
+      <workItem from="1619066280477" duration="24504000" />
+      <workItem from="1619139508662" duration="16732000" />
+      <workItem from="1619168351550" duration="603000" />
+      <workItem from="1619238245475" duration="243000" />
+    </task>
+    <task id="LOCAL-00001">
+      <created>1612163678042</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1612163678042</updated>
+    </task>
+    <task id="LOCAL-00002">
+      <created>1612171602031</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1612171602031</updated>
+    </task>
+    <task id="LOCAL-00003">
+      <created>1612226182027</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1612226182027</updated>
+    </task>
+    <task id="LOCAL-00004">
+      <created>1612229318033</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1612229318033</updated>
+    </task>
+    <task id="LOCAL-00005">
+      <created>1612246797035</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1612246797035</updated>
+    </task>
+    <task id="LOCAL-00006">
+      <created>1612257909034</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1612257909034</updated>
+    </task>
+    <task id="LOCAL-00007">
+      <created>1612325885037</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1612325885037</updated>
+    </task>
+    <task id="LOCAL-00008">
+      <created>1612326406025</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1612326406025</updated>
+    </task>
+    <task id="LOCAL-00009">
+      <created>1612338989034</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1612338989034</updated>
+    </task>
+    <task id="LOCAL-00010">
+      <created>1612339927027</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1612339927028</updated>
+    </task>
+    <task id="LOCAL-00011">
+      <created>1612343567037</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1612343567037</updated>
+    </task>
+    <task id="LOCAL-00012">
+      <created>1612403497031</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1612403497031</updated>
+    </task>
+    <task id="LOCAL-00013">
+      <created>1612412680030</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1612412680030</updated>
+    </task>
+    <task id="LOCAL-00014">
+      <created>1612420811028</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1612420811028</updated>
+    </task>
+    <task id="LOCAL-00015">
+      <created>1612422001029</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1612422001029</updated>
+    </task>
+    <task id="LOCAL-00016">
+      <created>1612422643035</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1612422643035</updated>
+    </task>
+    <task id="LOCAL-00017">
+      <created>1612488025032</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1612488025032</updated>
+    </task>
+    <task id="LOCAL-00018">
+      <created>1612493736028</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1612493736028</updated>
+    </task>
+    <task id="LOCAL-00019">
+      <created>1612504224033</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1612504224033</updated>
+    </task>
+    <task id="LOCAL-00020">
+      <created>1612506628028</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1612506628028</updated>
+    </task>
+    <task id="LOCAL-00021">
+      <created>1612507736035</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1612507736035</updated>
+    </task>
+    <task id="LOCAL-00022">
+      <created>1612507854029</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1612507854029</updated>
+    </task>
+    <task id="LOCAL-00023">
+      <created>1612663197038</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1612663197038</updated>
+    </task>
+    <task id="LOCAL-00024">
+      <created>1612675964034</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1612675964035</updated>
+    </task>
+    <task id="LOCAL-00025">
+      <created>1612682002031</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1612682002031</updated>
+    </task>
+    <task id="LOCAL-00026">
+      <created>1612682316027</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1612682316027</updated>
+    </task>
+    <task id="LOCAL-00027">
+      <created>1612746681032</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1612746681033</updated>
+    </task>
+    <task id="LOCAL-00028">
+      <created>1612754262030</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1612754262030</updated>
+    </task>
+    <task id="LOCAL-00029">
+      <created>1612774966037</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1612774966037</updated>
+    </task>
+    <task id="LOCAL-00030">
+      <created>1612884021028</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1612884021028</updated>
+    </task>
+    <task id="LOCAL-00031">
+      <created>1612922397030</created>
+      <option name="number" value="00031" />
+      <option name="presentableId" value="LOCAL-00031" />
+      <option name="project" value="LOCAL" />
+      <updated>1612922397030</updated>
+    </task>
+    <task id="LOCAL-00032">
+      <created>1612923698033</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1612923698033</updated>
+    </task>
+    <task id="LOCAL-00033">
+      <created>1612926267033</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1612926267033</updated>
+    </task>
+    <task id="LOCAL-00034">
+      <created>1612929614027</created>
+      <option name="number" value="00034" />
+      <option name="presentableId" value="LOCAL-00034" />
+      <option name="project" value="LOCAL" />
+      <updated>1612929614028</updated>
+    </task>
+    <task id="LOCAL-00035">
+      <created>1613631204039</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1613631204039</updated>
+    </task>
+    <task id="LOCAL-00036">
+      <created>1613636534030</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1613636534030</updated>
+    </task>
+    <task id="LOCAL-00037">
+      <created>1613637780028</created>
+      <option name="number" value="00037" />
+      <option name="presentableId" value="LOCAL-00037" />
+      <option name="project" value="LOCAL" />
+      <updated>1613637780028</updated>
+    </task>
+    <task id="LOCAL-00038">
+      <created>1613725798033</created>
+      <option name="number" value="00038" />
+      <option name="presentableId" value="LOCAL-00038" />
+      <option name="project" value="LOCAL" />
+      <updated>1613725798033</updated>
+    </task>
+    <task id="LOCAL-00039">
+      <created>1613726122074</created>
+      <option name="number" value="00039" />
+      <option name="presentableId" value="LOCAL-00039" />
+      <option name="project" value="LOCAL" />
+      <updated>1613726122074</updated>
+    </task>
+    <option name="localTasksCounter" value="40" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/clock_in_project$Tomcat_7_0_96.ic" NAME="Tomcat 7.0.96 Coverage Results" MODIFIED="1616650549410" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>

@@ -1,0 +1,1071 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njusc.npm.metadata.dao.mapper.TUserDao">
+
+    <update id="updateRole" parameterType="java.util.Map">
+        update
+            TAB_USER_ROLE
+        set isdel = 1
+        where user_id = #{userId}
+    </update>
+
+    <select id="findUserById" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TUserEntity">
+        select u.id                               id,
+               u.person_no                        personNo,
+               u.user_name                        userName,
+               d.dept_name                        deptName,
+               GROUP_CONCAT(distinct m.post_name) postName,
+               u.telephone                        telephone,
+               u.user_status                      userStatus,
+               GROUP_CONCAT(distinct r.role_name) roleName
+        from TAB_USER u
+                 left join TAB_DEPT d on u.dept_id = d.id and d.isdel = 0
+                 left join TAB_USER_POST p on u.id = p.user_id and p.isdel = 0
+                 left join TAB_USER_ROLE c on u.id = c.user_id and c.isdel = 0
+                 left join TAB_POST m on p.POST_ID = m.id and m.isdel = 0
+                 left join TAB_DEPT e on m.dept_id = e.id and e.isdel = 0
+                 left join TAB_ROLE r on c.role_id = r.id and r.isdel = 0
+        where u.isdel = 0
+          and u.id = #{id}
+        group by u.id
+    </select>
+
+    <select id="selectUserById" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TUserEntity">
+        select a.id                         id,
+               a.person_no                  personNo,
+               a.user_name                  userName,
+               a.sex                        sex,
+               a.telephone                  telephone,
+               a.salary                     salary,
+               a.user_status                userStatus,
+               a.card_no                    cardNo,
+               a.birth_date                 birthDate,
+               a.ethnic                     ethnic,
+               a.native_place               nativePlace,
+               a.census_register_address    censusRegisterAddress,
+               a.family_address             familyAddress,
+               a.marriage_status            marriageStatus,
+               a.hurry_contract_person      hurryContractPerson,
+               a.hurry_contract_telephone   hurryContractTelephone,
+               a.school                     school,
+               a.name_of_major              nameOfMajor,
+               a.graduate_date              graduateDate,
+               a.high_level                 highLevel,
+               a.ENTRY_DATE                 entryDate,
+               a.regular_work_date          regularWorkDate,
+               a.first_contract_start_date  firstContractStartDate,
+               a.first_contract_end_date    firstContractEndDate,
+               a.second_contract_start_date secondContractStartDate,
+               a.second_contract_end_date   secondContractEndDate,
+               a.third_contract_start_date  thirdContractStartDate,
+               a.third_contract_end_date    thirdContractEndDate,
+               a.insert_user                insertUser,
+               a.insert_date                insertDate,
+               a.dept_id                    deptId,
+               a.user_password              userPassword,
+               a.isdel
+        from TAB_USER a
+        where a.isdel = 0
+          and a.id = #{id}
+    </select>
+
+    <select id="getUsers" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TUserEntity">
+        select u.id id,
+        u.person_no personNo,
+        u.user_name userName,
+        d.dept_name deptName,
+        GROUP_CONCAT(distinct m.post_name) postName,
+        u.telephone telephone,
+        u.user_status userStatus,
+        GROUP_CONCAT(distinct r.role_name) roleName
+        from TAB_USER u
+        left join TAB_dept d on u.dept_id = d.id and d.isdel = 0
+        left join TAB_user_post p on u.id = p.user_id and p.isdel = 0
+        left join TAB_user_role c on u.id = c.user_id and c.isdel = 0
+        left join TAB_post m on p.post_id = m.id and m.isdel = 0
+        left join TAB_dept e on m.dept_id = e.id and e.isdel = 0
+        left join TAB_role r on c.role_id = r.id and r.isdel = 0
+        where u.isdel=0
+        <if test="null != deptName and '' != deptName">
+            and d.dept_name like '%${deptName}%'
+        </if>
+        <if test="null != personNo and '' != personNo">
+            and u.person_no like '%*${personNo}%'escape '*'
+        </if>
+        <if test="null != userName and '' != userName">
+            and u.user_name like '%*${userName}%'escape '*'
+        </if>
+        <if test="null != postName and '' != postName">
+            and m.post_name like '%${postName}%'
+        </if>
+        <if test="null != userStatus and '' != userStatus">
+            and u.user_status = #{userStatus}
+        </if>
+        group by u.id
+        order by u.ENTRY_DATE
+    </select>
+
+
+    <select id="find" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TUserEntity">
+        <include refid="findSql"/>
+    </select>
+
+    <select id="findAll" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TUserEntity">
+        <include refid="findSql"/>
+        order by insert_date desc
+    </select>
+
+    <select id="findAllPersonNo" resultType="string">
+        select person_no personNo
+        from TAB_USER
+        where isdel = 0
+    </select>
+
+
+    <insert id="save" parameterType="com.njusc.npm.metadata.entity.TUserEntity">
+        insert
+        <include refid="saveSql"/>
+        values (
+        #{ id},
+        #{ personNo},
+        #{ userName},
+        #{ sex},
+        #{ telephone},
+        #{ salary},
+        #{ userStatus},
+        #{ cardNo},
+        #{ birthDate},
+        #{ ethnic},
+        #{ nativePlace},
+        #{ censusRegisterAddress},
+        #{ familyAddress},
+        #{ marriageStatus},
+        #{ hurryContractPerson},
+        #{ hurryContractTelephone},
+        #{ school},
+        #{ nameOfMajor},
+        #{ graduateDate},
+        #{ highLevel},
+        #{ entryDate},
+        #{ regularWorkDate},
+        #{ firstContractStartDate},
+        #{ firstContractEndDate},
+        #{ secondContractStartDate},
+        #{ secondContractEndDate},
+        #{ thirdContractStartDate},
+        #{ thirdContractEndDate},
+        #{ insertUser},
+        #{ insertDate},
+        #{ deptId},
+        #{ userPassword},
+        #{ isDeptManager},
+        #{isdel}
+        )
+    </insert>
+
+    <insert id="saveAll" parameterType="java.util.List">
+        insert
+        <include refid="saveSql"/>
+        values
+        <foreach collection="list" item="data" separator=",">
+            (
+            #{data.id},
+            #{data.personNo},
+            #{data.userName},
+            #{data.sex},
+            #{data.telephone},
+            #{data.salary},
+            #{data.userStatus},
+            #{data.cardNo},
+            #{data.birthDate},
+            #{data.ethnic},
+            #{data.nativePlace},
+            #{data.censusRegisterAddress},
+            #{data.familyAddress},
+            #{data.marriageStatus},
+            #{data.hurryContractPerson},
+            #{data.hurryContractTelephone},
+            #{data.school},
+            #{data.nameOfMajor},
+            #{data.graduateDate},
+            #{data.highLevel},
+            #{data.entryDate},
+            #{data.regularWorkDate},
+            #{data.firstContractStartDate},
+            #{data.firstContractEndDate},
+            #{data.secondContractStartDate},
+            #{data.secondContractEndDate},
+            #{data.thirdContractStartDate},
+            #{data.thirdContractEndDate},
+            #{data.insertUser},
+            #{data.insertDate},
+            #{data.deptId},
+            #{data.userPassword},
+            #{data.isdel}
+            )
+        </foreach>
+
+    </insert>
+
+    <update id="updateAll" parameterType="java.util.List">
+
+        <foreach collection="list" item="data" separator=";">
+            update TAB_USER set
+            person_no = #{data.personNo},
+            user_name = #{data.userName},
+            sex = #{data.sex},
+            telephone = #{data.telephone},
+            salary = #{data.salary},
+            user_status = #{data.userStatus},
+            card_no = #{data.cardNo},
+            birth_date = #{data.birthDate},
+            ethnic = #{data.ethnic},
+            native_place = #{data.nativePlace},
+            census_register_address = #{data.censusRegisterAddress},
+            family_address = #{data.familyAddress},
+            marriage_status = #{data.marriageStatus},
+            hurry_contract_person = #{data.hurryContractPerson},
+            hurry_contract_telephone = #{data.hurryContractTelephone},
+            school = #{data.school},
+            name_of_major = #{data.nameOfMajor},
+            graduate_date = #{data.graduateDate},
+            high_level = #{data.highLevel},
+            ENTRY_DATE = #{data.entryDate},
+            regular_work_date = #{data.regularWorkDate},
+            first_contract_start_date = #{data.firstContractStartDate},
+            first_contract_end_date = #{data.firstContractEndDate},
+            second_contract_start_date = #{data.secondContractStartDate},
+            second_contract_end_date = #{data.secondContractEndDate},
+            third_contract_start_date = #{data.thirdContractStartDate},
+            third_contract_end_date = #{data.thirdContractEndDate},
+            insert_date = #{data.insertDate},
+            dept_id = #{data.deptId},
+            user_password = #{data.userPassword},
+            isdel=#{data.isdel}
+            where id = #{data.id}
+        </foreach>
+
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        <include refid="deleteSql"/>
+        where
+        <!-- 单个参数，使用内置对象判断 -->
+        <if test="null != _parameter and '' != _parameter">
+            id = #{id}
+        </if>
+    </delete>
+
+    <delete id="deleteAll" parameterType="java.lang.String">
+
+        <include refid="deleteSql"/>
+        where
+        id in
+        <foreach close=")" collection="list" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <update id="update" parameterType="com.njusc.npm.metadata.entity.TUserEntity">
+        update TAB_USER
+        set PERSON_NO                  = #{personNo},
+            USER_NAME                  = #{userName},
+            SEX                        = #{sex},
+            TELEPHONE                  = #{telephone},
+            SALARY                     = #{salary},
+            USER_STATUS                = #{userStatus},
+            CARD_NO                    = #{cardNo},
+            BIRTH_DATE                 = #{birthDate},
+            ETHNIC                     = #{ethnic},
+            NATIVE_PLACE               = #{nativePlace},
+            CENSUS_REGISTER_ADDRESS    = #{censusRegisterAddress},
+            FAMILY_ADDRESS             = #{familyAddress},
+            MARRIAGE_STATUS            = #{marriageStatus},
+            HURRY_CONTRACT_PERSON      = #{hurryContractPerson},
+            HURRY_CONTRACT_TELEPHONE   = #{hurryContractTelephone},
+            SCHOOL                     = #{school},
+            NAME_OF_MAJOR              = #{nameOfMajor},
+            GRADUATE_DATE              = #{graduateDate},
+            HIGH_LEVEL                 = #{highLevel},
+            ENTRY_DATE                 = #{entryDate},
+            REGULAR_WORK_DATE          = #{regularWorkDate},
+            FIRST_CONTRACT_START_DATE  = #{firstContractStartDate},
+            FIRST_CONTRACT_END_DATE    = #{firstContractEndDate},
+            SECOND_CONTRACT_START_DATE = #{secondContractStartDate},
+            SECOND_CONTRACT_END_DATE   = #{secondContractEndDate},
+            THIRD_CONTRACT_START_DATE  = #{thirdContractStartDate},
+            THIRD_CONTRACT_END_DATE    = #{thirdContractEndDate},
+            INSERT_USER                =#{insertUser},
+            INSERT_DATE                = #{insertDate},
+            DEPT_ID                    = #{deptId},
+            USER_PASSWORD              = #{userPassword},
+            IS_DEPT_MANAGER            =#{isDeptManager},
+            ISDEL=#{isdel}
+        where ID = #{id}
+    </update>
+
+
+    <!--    <update id="updateTUser" parameterType="com.njusc.npm.metadata.entity.TUserEntity">-->
+    <!--    update  t_user-->
+    <!--    set-->
+    <!--                                    person_no = #{personNo},-->
+    <!--                                user_name = #{userName},-->
+    <!--                                sex = #{sex},-->
+    <!--                                telephone = #{telephone},-->
+    <!--                                salary = #{salary},-->
+    <!--                                user_status = #{userStatus},-->
+    <!--                                card_no = #{cardNo},-->
+    <!--                                birth_date = #{birthDate},-->
+    <!--                                ethnic = #{ethnic},-->
+    <!--                                native_place = #{nativePlace},-->
+    <!--                                census_register_address = #{censusRegisterAddress},-->
+    <!--                                family_address = #{familyAddress},-->
+    <!--                                marriage_status = #{marriageStatus},-->
+    <!--                                hurry_contract_person = #{hurryContractPerson},-->
+    <!--                                hurry_contract_telephone = #{hurryContractTelephone},-->
+    <!--                                school = #{school},-->
+    <!--                                name_of_major = #{nameOfMajor},-->
+    <!--                                graduate_date = #{graduateDate},-->
+    <!--                                high_level = #{highLevel},-->
+    <!--                                ENTRY_DATE = #{entryDate},-->
+    <!--                                regular_work_date = #{regularWorkDate},-->
+    <!--                                first_contract_start_date = #{firstContractStartDate},-->
+    <!--                                first_contract_end_date = #{firstContractEndDate},-->
+    <!--                                second_contract_start_date = #{secondContractStartDate},-->
+    <!--                                second_contract_end_date = #{secondContractEndDate},-->
+    <!--                                third_contract_start_date = #{thirdContractStartDate},-->
+    <!--                                third_contract_end_date = #{thirdContractEndDate},-->
+    <!--                                                        insert_date = #{insertDate},-->
+    <!--                                dept_id = #{deptId},-->
+    <!--                                user_password = #{userPassword},-->
+    <!--                                is_dept_manager = #{isDeptManager},-->
+    <!--               isdel=#{isdel}-->
+    <!--    where  id = #{id}-->
+    <!--</update>-->
+
+    <sql id="saveSql">
+        into TAB_USER
+    (
+                        id,
+                                 person_no,
+                                 user_name,
+                                 sex,
+                                 telephone,
+                                 salary,
+                                 user_status,
+                                 card_no,
+                                 birth_date,
+                                 ethnic,
+                                 native_place,
+                                 census_register_address,
+                                 family_address,
+                                 marriage_status,
+                                 hurry_contract_person,
+                                 hurry_contract_telephone,
+                                 school,
+                                 name_of_major,
+                                 graduate_date,
+                                 high_level,
+                                 ENTRY_DATE,
+                                 regular_work_date,
+                                 first_contract_start_date,
+                                 first_contract_end_date,
+                                 second_contract_start_date,
+                                 second_contract_end_date,
+                                 third_contract_start_date,
+                                 third_contract_end_date,
+                                             insert_user,
+                                 insert_date,
+                                 dept_id,
+                                 user_password,
+                                 is_dept_manager,
+                   isdel
+    )
+    </sql>
+
+    <sql id="deleteSql">
+        update TAB_USER
+        set isdel=1
+    </sql>
+
+    <sql id="findSql">
+        SELECT
+        a.ID id,
+        a.PERSON_NO personNo,
+        a.USER_NAME userName,
+        a.SEX sex,
+        a.TELEPHONE telephone,
+        a.SALARY salary,
+        a.USER_STATUS userStatus,
+        a.CARD_NO cardNo,
+        a.BIRTH_DATE birthDate,
+        a.ETHNIC ethnic,
+        a.NATIVE_PLACE nativePlace,
+        a.CENSUS_REGISTER_ADDRESS censusRegisterAddress,
+        a.FAMILY_ADDRESS familyAddress,
+        a.MARRIAGE_STATUS marriageStatus,
+        a.HURRY_CONTRACT_PERSON hurryContractPerson,
+        a.HURRY_CONTRACT_TELEPHONE hurryContractTelephone,
+        a.SCHOOL school,
+        a.NAME_OF_MAJOR nameOfMajor,
+        a.GRADUATE_DATE graduateDate,
+        a.HIGH_LEVEL highLevel,
+        a.ENTRY_DATE entryDate,
+        a.REGULAR_WORK_DATE regularWorkDate,
+        a.FIRST_CONTRACT_START_DATE firstContractStartDate,
+        a.FIRST_CONTRACT_END_DATE firstContractEndDate,
+        a.SECOND_CONTRACT_START_DATE secondContractStartDate,
+        a.SECOND_CONTRACT_END_DATE secondContractEndDate,
+        a.THIRD_CONTRACT_START_DATE thirdContractStartDate,
+        a.THIRD_CONTRACT_END_DATE thirdContractEndDate,
+        a.ISDEL isDel,
+        a.INSERT_USER insertUser,
+        a.INSERT_DATE insertDate,
+        a.DEPT_ID deptId,
+        a.USER_PASSWORD userPassword,
+        a.IS_DEPT_MANAGER isDeptManager
+        FROM TAB_USER a
+        WHERE a.ISDEL!=1
+        <if test="null != id and '' != id">
+            and a.ID = #{id}
+        </if>
+
+        <if test="null != personNo and '' != personNo">
+            and a.PERSON_NO = #{personNo}
+        </if>
+
+        <if test="null != userName and '' != userName">
+            and a.USER_NAME = #{userName}
+        </if>
+
+        <if test="null != sex and '' != sex">
+            and a.SEX = #{sex}
+        </if>
+
+        <if test="null != telephone and '' != telephone">
+            and a.TELEPHONE = #{telephone}
+        </if>
+
+        <if test="null != salary and '' != salary">
+            and a.SALARY = #{salary}
+        </if>
+
+        <if test="null != userStatus and '' != userStatus">
+            and a.USER_STATUS = #{userStatus}
+        </if>
+
+        <if test="null != cardNo and '' != cardNo">
+            and a.CARD_NO = #{cardNo}
+        </if>
+
+        <if test="null != id and '' != id">
+            and a.BIRTH_DATE = #{birthDate}
+        </if>
+
+        <if test="null != ethnic and '' != ethnic">
+            and a.ETHNIC = #{ethnic}
+        </if>
+
+        <if test="null != nativePlace and '' != nativePlace">
+            and a.NATIVE_PLACE = #{nativePlace}
+        </if>
+
+        <if test="null != censusRegisterAddress and '' != censusRegisterAddress">
+            and a.CENSUS_REGISTER_ADDRESS = #{censusRegisterAddress}
+        </if>
+
+        <if test="null != familyAddress and '' != familyAddress">
+            and a.FAMILY_ADDRESS = #{familyAddress}
+        </if>
+
+        <if test="null !=marriageStatus and '' !=marriageStatus">
+            and a. MARRIAGE_STATUS= #{marriageStatus}
+        </if>
+
+        <if test="null !=hurryContractPerson and '' !=hurryContractPerson">
+            and a.HURRY_CONTRACT_PERSON = #{hurryContractPerson}
+        </if>
+
+        <if test="null != hurryContractTelephone and '' != hurryContractTelephone">
+            and a.HURRY_CONTRACT_TELEPHONE = #{hurryContractTelephone}
+        </if>
+
+        <if test="null !=school and '' !=school">
+            and a.SCHOOL = #{school}
+        </if>
+
+        <if test="null !=nameOfMajor and '' !=nameOfMajor">
+            and a.NAME_OF_MAJOR = #{nameOfMajor}
+        </if>
+
+        <if test="null !=graduateDate and '' !=graduateDate">
+            and a.GRADUATE_DATE = #{graduateDate}
+        </if>
+
+        <if test="null !=highLevel and '' !=highLevel">
+            and a.HIGH_LEVEL = #{highLevel}
+        </if>
+
+        <if test="null !=entryDate and '' !=entryDate">
+            and a.ENTRY_DATE = #{entryDate}
+        </if>
+
+        <if test="null !=regularWorkDate and '' !=regularWorkDate">
+            and a.REGULAR_WORK_DATE = #{regularWorkDate}
+        </if>
+
+        <if test="null !=firstContractStartDate and '' !=firstContractStartDate">
+            and a.FIRST_CONTRACT_START_DATE = #{firstContractStartDate}
+        </if>
+
+        <if test="null !=firstContractEndDate and '' !=firstContractEndDate">
+            and a.FIRST_CONTRACT_END_DATE = #{firstContractEndDate}
+        </if>
+
+        <if test="null !=secondContractStartDate and '' !=secondContractStartDate">
+            and a.SECOND_CONTRACT_START_DATE = #{secondContractStartDate}
+        </if>
+
+        <if test="null !=secondContractEndDate and '' !=secondContractEndDate">
+            and a.SECOND_CONTRACT_END_DATE = #{secondContractEndDate}
+        </if>
+
+        <if test="null !=thirdContractStartDate and '' !=thirdContractStartDate">
+            and a.THIRD_CONTRACT_START_DATE = #{thirdContractStartDate}
+        </if>
+
+        <if test="null !=thirdContractEndDate and '' !=thirdContractEndDate">
+            and a.THIRD_CONTRACT_END_DATE = #{thirdContractEndDate}
+        </if>
+
+        <if test="null !=isDel and '' !=isDel">
+            and a.ISDEL = #{isDel}
+        </if>
+
+        <if test="null !=insertUser and '' !=insertUser">
+            and a.INSERT_USER = #{insertUser}
+        </if>
+
+        <if test="null !=insertDate and '' !=insertDate">
+            and a.INSERT_DATE = #{insertDate}
+        </if>
+
+        <if test="null !=deptId and '' !=deptId">
+            and a.DEPT_ID = #{deptId}
+        </if>
+
+        <if test="null !=userPassword and '' !=userPassword">
+            and a.USER_PASSWORD = #{userPassword}
+        </if>
+
+        <if test="null !=isDeptManager and '' !=isDeptManager">
+            and a.IS_DEPT_MANAGER = #{isDeptManager}
+        </if>
+
+    </sql>
+
+
+    <select id="findUserAndDept" parameterType="java.util.Map"
+            resultType="com.njusc.npm.metadata.entity.TUserDeptEntity">
+        select
+        a.id id,
+        a.person_no personNo,
+        a.user_name userName,
+        a.sex sex,
+        a.telephone telephone,
+        a.salary salary,
+        a.user_status userStatus,
+        a.card_no cardNo,
+        a.birth_date birthDate,
+        a.ethnic ethnic,
+        a.native_place nativePlace,
+        a.census_register_address censusRegisterAddress,
+        a.family_address familyAddress,
+        a.marriage_status marriageStatus,
+        a.hurry_contract_person hurryContractPerson,
+        a.hurry_contract_telephone hurryContractTelephone,
+        a.school school,
+        a.name_of_major nameOfMajor,
+        a.graduate_date graduateDate,
+        a.high_level highLevel,
+        a.ENTRY_DATE entryDate,
+        a.regular_work_date regularWorkDate,
+        a.first_contract_start_date firstContractStartDate,
+        a.first_contract_end_date firstContractEndDate,
+        a.second_contract_start_date secondContractStartDate,
+        a.second_contract_end_date secondContractEndDate,
+        a.third_contract_start_date thirdContractStartDate,
+        a.third_contract_end_date thirdContractEndDate,
+        a.insert_user insertUser,
+        a.insert_date insertDate,
+        a.dept_id deptId,
+        a.user_password userPassword,
+        a.is_dept_manager isDeptManager,
+        a.isdel,
+        d.dept_name deptName,
+        GROUP_CONCAT(m.post_name,'') postName,
+        GROUP_CONCAT(m.id,'') postId
+        from TAB_USER a left join TAB_DEPT d on a.dept_id=d.id and d.isdel=0
+        left join TAB_USER_POST p on a.id = p.user_id and p.isdel=0
+        left join TAB_POST m on p.POST_ID = m.id and m.isdel=0
+        where a.isdel=0
+        <if test="null != id and '' != id">
+            and a.id = #{id}
+        </if>
+        <if test="null != personNo and '' != personNo">
+            and a.person_no LIKE concat('%',trim(#{personNo}),'%')
+        </if>
+        <if test="null != userName and '' != userName">
+            and a.user_name like concat('%',trim(#{userName}),'%')
+        </if>
+        <if test="null != sex and '' != sex">
+            and a.sex = #{sex}
+        </if>
+        <if test="null != telephone and '' != telephone">
+            and a.telephone = #{telephone}
+        </if>
+        <if test="null != salary and '' != salary">
+            and a.salary = #{salary}
+        </if>
+        <if test="null != userStatus and '' != userStatus">
+            and a.user_status = #{userStatus}
+        </if>
+        <if test="null != cardNo and '' != cardNo">
+            and a.card_no = #{cardNo}
+        </if>
+        <if test="null != birthDate and '' != birthDate">
+            and a.birth_date = #{birthDate}
+        </if>
+        <if test="null != ethnic and '' != ethnic">
+            and a.ethnic = #{ethnic}
+        </if>
+        <if test="null != nativePlace and '' != nativePlace">
+            and a.native_place = #{nativePlace}
+        </if>
+        <if test="null != censusRegisterAddress and '' != censusRegisterAddress">
+            and a.census_register_address = #{censusRegisterAddress}
+        </if>
+        <if test="null != familyAddress and '' != familyAddress">
+            and a.family_address = #{familyAddress}
+        </if>
+        <if test="null != marriageStatus and '' != marriageStatus">
+            and a.marriage_status = #{marriageStatus}
+        </if>
+        <if test="null != hurryContractPerson and '' != hurryContractPerson">
+            and a.hurry_contract_person = #{hurryContractPerson}
+        </if>
+        <if test="null != hurryContractTelephone and '' != hurryContractTelephone">
+            and a.hurry_contract_telephone = #{hurryContractTelephone}
+        </if>
+        <if test="null != school and '' != school">
+            and a.school = #{school}
+        </if>
+        <if test="null != nameOfMajor and '' != nameOfMajor">
+            and a.name_of_major = #{nameOfMajor}
+        </if>
+        <if test="null != graduateDate and '' != graduateDate">
+            and a.graduate_date = #{graduateDate}
+        </if>
+        <if test="null != highLevel and '' != highLevel">
+            and a.high_level = #{highLevel}
+        </if>
+        <if test="null != entryDate and '' != entryDate">
+            and a.ENTRY_DATE = #{entryDate}
+        </if>
+        <if test="null != regularWorkDate and '' != regularWorkDate">
+            and a.regular_work_date = #{regularWorkDate}
+        </if>
+        <if test="null != firstContractStartDate and '' != firstContractStartDate">
+            and a.first_contract_start_date = #{firstContractStartDate}
+        </if>
+        <if test="null != firstContractEndDate and '' != firstContractEndDate">
+            and a.first_contract_end_date = #{firstContractEndDate}
+        </if>
+        <if test="null != secondContractStartDate and '' != secondContractStartDate">
+            and a.second_contract_start_date = #{secondContractStartDate}
+        </if>
+        <if test="null != secondContractEndDate and '' != secondContractEndDate">
+            and a.second_contract_end_date = #{secondContractEndDate}
+        </if>
+        <if test="null != thirdContractStartDate and '' != thirdContractStartDate">
+            and a.third_contract_start_date = #{thirdContractStartDate}
+        </if>
+        <if test="null != thirdContractEndDate and '' != thirdContractEndDate">
+            and a.third_contract_end_date = #{thirdContractEndDate}
+        </if>
+        <if test="null != insertDate and '' != insertDate">
+            and a.insert_date = #{insertDate}
+        </if>
+        <if test="null != deptId and '' != deptId">
+            and a.dept_id = #{deptId}
+        </if>
+        <if test="null != userPassword and '' != userPassword">
+            and a.user_password = #{userPassword}
+        </if>
+        group by a.id
+
+        <if test="null != postName and '' != postName">
+            having postName like concat('%',trim(#{postName}),'%')
+        </if>
+        order by ENTRY_DATE
+    </select>
+
+    <select id="findAll2" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TUserEntity">
+        select
+        a.id id,
+        a.person_no personNo,
+        a.user_name userName,
+        a.sex sex,
+        a.telephone telephone,
+        a.salary salary,
+        a.user_status userStatus,
+        a.card_no cardNo,
+        a.birth_date birthDate,
+        a.ethnic ethnic,
+        a.native_place nativePlace,
+        a.census_register_address censusRegisterAddress,
+        a.family_address familyAddress,
+        a.marriage_status marriageStatus,
+        a.hurry_contract_person hurryContractPerson,
+        a.hurry_contract_telephone hurryContractTelephone,
+        a.school school,
+        a.name_of_major nameOfMajor,
+        a.graduate_date graduateDate,
+        a.high_level highLevel,
+        a.ENTRY_DATE entryDate,
+        a.regular_work_date regularWorkDate,
+        a.first_contract_start_date firstContractStartDate,
+        a.first_contract_end_date firstContractEndDate,
+        a.second_contract_start_date secondContractStartDate,
+        a.second_contract_end_date secondContractEndDate,
+        a.third_contract_start_date thirdContractStartDate,
+        a.third_contract_end_date thirdContractEndDate,
+        a.insert_user insertUser,
+        a.insert_date insertDate,
+        a.dept_id deptId,
+        a.user_password userPassword,
+        a.isdel
+        from TAB_USER a
+        <!--<if test="null != id and '' != id">
+            and a.id = #{id}
+        </if>
+        <if test="null != personNo and '' != personNo">
+            and a.person_no = #{personNo}
+        </if>-->
+        <if test="null != userName and '' != userName">
+            and a.user_name = #{userName}
+        </if>
+        <!--<if test="null != sex and '' != sex">
+            and a.sex = #{sex}
+        </if>
+        <if test="null != telephone and '' != telephone">
+            and a.telephone = #{telephone}
+        </if>
+        <if test="null != salary and '' != salary">
+            and a.salary = #{salary}
+        </if>
+        <if test="null != userStatus and '' != userStatus">
+            and a.user_status = #{userStatus}
+        </if>
+        <if test="null != cardNo and '' != cardNo">
+            and a.card_no = #{cardNo}
+        </if>
+        <if test="null != birthDate and '' != birthDate">
+            and a.birth_date = #{birthDate}
+        </if>
+        <if test="null != ethnic and '' != ethnic">
+            and a.ethnic = #{ethnic}
+        </if>
+        <if test="null != nativePlace and '' != nativePlace">
+            and a.native_place = #{nativePlace}
+        </if>
+        <if test="null != censusRegisterAddress and '' != censusRegisterAddress">
+            and a.census_register_address = #{censusRegisterAddress}
+        </if>
+        <if test="null != familyAddress and '' != familyAddress">
+            and a.family_address = #{familyAddress}
+        </if>
+        <if test="null != marriageStatus and '' != marriageStatus">
+            and a.marriage_status = #{marriageStatus}
+        </if>
+        <if test="null != hurryContractPerson and '' != hurryContractPerson">
+            and a.hurry_contract_person = #{hurryContractPerson}
+        </if>
+        <if test="null != hurryContractTelephone and '' != hurryContractTelephone">
+            and a.hurry_contract_telephone = #{hurryContractTelephone}
+        </if>
+        <if test="null != school and '' != school">
+            and a.school = #{school}
+        </if>
+        <if test="null != nameOfMajor and '' != nameOfMajor">
+            and a.name_of_major = #{nameOfMajor}
+        </if>
+        <if test="null != graduateDate and '' != graduateDate">
+            and a.graduate_date = #{graduateDate}
+        </if>
+        <if test="null != highLevel and '' != highLevel">
+            and a.high_level = #{highLevel}
+        </if>
+        <if test="null != entryDate and '' != entryDate">
+            and a.ENTRY_DATE = #{entryDate}
+        </if>
+        <if test="null != regularWorkDate and '' != regularWorkDate">
+            and a.regular_work_date = #{regularWorkDate}
+        </if>
+        <if test="null != firstContractStartDate and '' != firstContractStartDate">
+            and a.first_contract_start_date = #{firstContractStartDate}
+        </if>
+        <if test="null != firstContractEndDate and '' != firstContractEndDate">
+            and a.first_contract_end_date = #{firstContractEndDate}
+        </if>
+        <if test="null != secondContractStartDate and '' != secondContractStartDate">
+            and a.second_contract_start_date = #{secondContractStartDate}
+        </if>
+        <if test="null != secondContractEndDate and '' != secondContractEndDate">
+            and a.second_contract_end_date = #{secondContractEndDate}
+        </if>
+        <if test="null != thirdContractStartDate and '' != thirdContractStartDate">
+            and a.third_contract_start_date = #{thirdContractStartDate}
+        </if>
+        <if test="null != thirdContractEndDate and '' != thirdContractEndDate">
+            and a.third_contract_end_date = #{thirdContractEndDate}
+        </if>
+        <if test="null != insertDate and '' != insertDate">
+            and a.insert_date = #{insertDate}
+        </if>-->
+        <if test="null != deptId and '' != deptId">
+            and a.dept_id = #{deptId}
+        </if>
+        <!--<if test="null != userPassword and '' != userPassword">
+            and a.user_password = #{userPassword}
+        </if>-->
+        order by insert_date desc
+    </select>
+
+    <sql id="getIdByNameSql">
+        select
+        a.id userId,
+        a.person_no personNo,
+        a.user_name userName,
+        a.sex sex,
+        a.telephone telephone,
+        a.salary salary,
+        a.user_status userStatus,
+        a.card_no cardNo,
+        a.birth_date birthDate,
+        a.ethnic ethnic,
+        a.native_place nativePlace,
+        a.census_register_address censusRegisterAddress,
+        a.family_address familyAddress,
+        a.marriage_status marriageStatus,
+        a.hurry_contract_person hurryContractPerson,
+        a.hurry_contract_telephone hurryContractTelephone,
+        a.school school,
+        a.name_of_major nameOfMajor,
+        a.graduate_date graduateDate,
+        a.high_level highLevel,
+        a.ENTRY_DATE entryDate,
+        a.regular_work_date regularWorkDate,
+        a.first_contract_start_date firstContractStartDate,
+        a.first_contract_end_date firstContractEndDate,
+        a.second_contract_start_date secondContractStartDate,
+        a.second_contract_end_date secondContractEndDate,
+        a.third_contract_start_date thirdContractStartDate,
+        a.third_contract_end_date thirdContractEndDate,
+        a.insert_user insertUser,
+        a.insert_date insertDate,
+        a.dept_id deptId,
+        a.user_password userPassword,
+        a.isdel
+        from TAB_USER a
+        where a.isdel=0
+        <if test="null != userId and '' != userId">
+            and a.id = #{userId}
+        </if>
+        <if test="null != personNo and '' != personNo">
+            and a.person_no = #{personNo}
+        </if>
+        <if test="null != userName and '' != userName">
+            and a.user_name = #{userName}
+        </if>
+        <if test="null != sex and '' != sex">
+            and a.sex = #{sex}
+        </if>
+        <if test="null != telephone and '' != telephone">
+            and a.telephone = #{telephone}
+        </if>
+        <if test="null != salary and '' != salary">
+            and a.salary = #{salary}
+        </if>
+        <if test="null != userStatus and '' != userStatus">
+            and a.user_status = #{userStatus}
+        </if>
+        <if test="null != cardNo and '' != cardNo">
+            and a.card_no = #{cardNo}
+        </if>
+        <if test="null != birthDate and '' != birthDate">
+            and a.birth_date = #{birthDate}
+        </if>
+        <if test="null != ethnic and '' != ethnic">
+            and a.ethnic = #{ethnic}
+        </if>
+        <if test="null != nativePlace and '' != nativePlace">
+            and a.native_place = #{nativePlace}
+        </if>
+        <if test="null != censusRegisterAddress and '' != censusRegisterAddress">
+            and a.census_register_address = #{censusRegisterAddress}
+        </if>
+        <if test="null != familyAddress and '' != familyAddress">
+            and a.family_address = #{familyAddress}
+        </if>
+        <if test="null != marriageStatus and '' != marriageStatus">
+            and a.marriage_status = #{marriageStatus}
+        </if>
+        <if test="null != hurryContractPerson and '' != hurryContractPerson">
+            and a.hurry_contract_person = #{hurryContractPerson}
+        </if>
+        <if test="null != hurryContractTelephone and '' != hurryContractTelephone">
+            and a.hurry_contract_telephone = #{hurryContractTelephone}
+        </if>
+        <if test="null != school and '' != school">
+            and a.school = #{school}
+        </if>
+        <if test="null != nameOfMajor and '' != nameOfMajor">
+            and a.name_of_major = #{nameOfMajor}
+        </if>
+        <if test="null != graduateDate and '' != graduateDate">
+            and a.graduate_date = #{graduateDate}
+        </if>
+        <if test="null != highLevel and '' != highLevel">
+            and a.high_level = #{highLevel}
+        </if>
+        <if test="null != entryDate and '' != entryDate">
+            and a.ENTRY_DATE = #{entryDate}
+        </if>
+        <if test="null != regularWorkDate and '' != regularWorkDate">
+            and a.regular_work_date = #{regularWorkDate}
+        </if>
+        <if test="null != firstContractStartDate and '' != firstContractStartDate">
+            and a.first_contract_start_date = #{firstContractStartDate}
+        </if>
+        <if test="null != firstContractEndDate and '' != firstContractEndDate">
+            and a.first_contract_end_date = #{firstContractEndDate}
+        </if>
+        <if test="null != secondContractStartDate and '' != secondContractStartDate">
+            and a.second_contract_start_date = #{secondContractStartDate}
+        </if>
+        <if test="null != secondContractEndDate and '' != secondContractEndDate">
+            and a.second_contract_end_date = #{secondContractEndDate}
+        </if>
+        <if test="null != thirdContractStartDate and '' != thirdContractStartDate">
+            and a.third_contract_start_date = #{thirdContractStartDate}
+        </if>
+        <if test="null != thirdContractEndDate and '' != thirdContractEndDate">
+            and a.third_contract_end_date = #{thirdContractEndDate}
+        </if>
+        <if test="null != insertDate and '' != insertDate">
+            and a.insert_date = #{insertDate}
+        </if>
+        <if test="null != deptId and '' != deptId">
+            and a.dept_id = #{deptId}
+        </if>
+        <if test="null != userPassword and '' != userPassword">
+            and a.user_password = #{userPassword}
+        </if>
+    </sql>
+
+    <select id="getIdByName" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TUserEntity">
+        <include refid="getIdByNameSql"/>
+    </select>
+
+
+    <!--    查询用户表所有的用户状态，用于下拉列表-->
+    <select id="findUserStatus" resultType="java.lang.String">
+        <include refid="findUserStatusSql"></include>
+    </select>
+
+    <sql id="findUserStatusSql">
+        SELECT CASE USER_STATUS WHEN 1 THEN '在职' WHEN 0 THEN '离职' end as '在职状态'
+        FROM TAB_USER
+        WHERE ISDEL!=1
+        GROUP BY USER_STATUS;
+    </sql>
+
+
+    <!--    员工信息管理数据显示-->
+    <select id="findUserInfo" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TUserEntity">
+        <include refid="findUserInfoSql"></include>
+    </select>
+
+    <sql id="findUserInfoSql">
+        SELECT a.ID AS id,
+        a.PERSON_NO AS personNo,
+        a.USER_NAME AS userName,
+        a.SEX AS sex,
+        a.TELEPHONE AS telephone,
+        a.SALARY AS salary,
+        a.USER_STATUS AS userStatus,
+        a.CARD_NO AS cardNo,
+        a.BIRTH_DATE AS birthDate,
+        a.ETHNIC AS ethnic,
+        a.NATIVE_PLACE AS nativePlace,
+        a.CENSUS_REGISTER_ADDRESS AS censusRegisterAddress,
+        a.FAMILY_ADDRESS AS familyAddress,
+        b.DATA_VALUE1 AS marriageStatus,
+        a.HURRY_CONTRACT_PERSON AS hurryContractPerson,
+        a.HURRY_CONTRACT_TELEPHONE AS hurryContractTelephone,
+        a.SCHOOL AS school,
+        a.NAME_OF_MAJOR AS nameOfMajor,
+        a.GRADUATE_DATE AS graduateDate,
+        b.DATA_VALUE1 AS highLevel,
+        a.ENTRY_DATE AS entryDate,
+        a.REGULAR_WORK_DATE AS regularWorkDate,
+        a.FIRST_CONTRACT_START_DATE AS ASfirstContractStartDate,
+        a.FIRST_CONTRACT_END_DATE AS firstContractEndDate,
+        a.SECOND_CONTRACT_START_DATE AS secondContractStartDate,
+        a.SECOND_CONTRACT_END_DATE AS secondContractEndDate,
+        a.THIRD_CONTRACT_START_DATE AS thirdContractStartDate,
+        a.THIRD_CONTRACT_END_DATE AS thirdContractEndDate,
+        a.ISDEL AS isdel,
+        d.USER_NAME AS insertUser,
+        a.INSERT_DATE AS insertDate,
+        a.DEPT_ID AS deptId,
+        e.DEPT_NAME AS deptName,
+        a.USER_PASSWORD AS userPassword,
+        a.IS_DEPT_MANAGER AS isDeptManager,
+        g.POST_NAME AS postName,
+        CASE a.SEX WHEN 1 THEN '男' WHEN 0 THEN '女' END AS sexStr,
+        CASE a.USER_STATUS WHEN 1 THEN '在职' WHEN 0 THEN '离职' END AS userStatusStr
+        FROM TAB_USER a
+        LEFT JOIN TAB_BASECODE b
+        ON a.MARRIAGE_STATUS = b.ID AND b.BASE_TYPE = 'MARRIAGE' AND b.BASE_TYPE_NAME = '婚姻状态' AND
+        b.ISDEL != 1
+        LEFT JOIN TAB_BASECODE C
+        ON a.HIGH_LEVEL = c.ID AND c.BASE_TYPE = 'EDUCATION' AND c.BASE_TYPE_NAME = '学历' AND c.ISDEL != 1
+        LEFT JOIN TAB_USER d ON a.INSERT_USER = d.ID AND d.ISDEL != 1
+        LEFT JOIN TAB_DEPT e ON a.DEPT_ID = e.DEPT_NAME AND d.ISDEL != 1
+        LEFT JOIN TAB_USER_POST f ON a.ID = f.USER_ID AND f.ISDEL != 1
+        LEFT JOIN TAB_POST g ON f.POST_ID = g.ID AND g.ISDEL != 1
+        WHERE a.ISDEL != 1
+        <if test="null!=userName and '' !=userName">
+            and a.USER_NAME=#{userName}
+        </if>
+        <if test="null!=personNo and '' != personNo">
+            and a.PERSON_NO=#{personNo}
+        </if>
+        <if test="null!= deptName and '' !=deptName">
+            and e.DEPT_NAME=#{deptName}
+        </if>
+        <if test="null != deptId and '' !=deptId">
+            and a.DEPT_ID=#{deptId}
+        </if>
+        <if test="null!= postName and '' !=postName">
+            and g.POST_NAME=#{postName}
+        </if>
+        <if test="null!= userStatus and '' != userStatus">
+            and a.USER_STATUS=#{userStatus}
+        </if>
+    </sql>
+</mapper>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/ndsc-backstage/backstage.iml" filepath="$PROJECT_DIR$/ndsc-backstage/backstage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ndsc-metadata/ndsc-metadata.iml" filepath="$PROJECT_DIR$/ndsc-metadata/ndsc-metadata.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ndsc-project-manage.iml" filepath="$PROJECT_DIR$/ndsc-project-manage.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ndsc-service/ndsc-service.iml" filepath="$PROJECT_DIR$/ndsc-service/ndsc-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ndsc-utils/ndsc-utils.iml" filepath="$PROJECT_DIR$/ndsc-utils/ndsc-utils.iml" />
+    </modules>
+  </component>
+</project>

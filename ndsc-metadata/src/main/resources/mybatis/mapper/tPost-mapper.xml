@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.njusc.npm.metadata.dao.mapper.TPostManageDao">
+
+    <select id="verifyPostName" parameterType="com.njusc.npm.metadata.entity.TPostEntity" resultType="com.njusc.npm.metadata.entity.TPostEntity">
+        SELECT
+        a.dept_id deptId,
+        a.post_type_id postTypeId,
+        a.post_name postName,
+        a.isdel
+        FROM TAB_POST a
+        WHERE a.isdel = 0
+        AND a.dept_id = #{deptId}
+        AND a.post_type_id = #{postTypeId}
+        AND a.post_name = #{postName}
+    </select>
+
+    <select id="getPostTypes" resultType="com.njusc.npm.metadata.entity.TBasecodeEntity">
+        select
+        a.id id,
+        a.base_type baseType,
+        a.base_type_name baseTypeName,
+        a.data_key dataKey,
+        a.data_value1 dataValue1,
+        a.data_value2 dataValue2,
+        a.data_value3 dataValue3,
+        a.INSERT_DATE insertTime,
+        a.insert_user insertUser,
+        a.parent_id parentId,
+        a.isdel
+        from TAB_BASECODE a
+        where a.isdel=0 and
+        a.base_type_name = '岗位类型'
+    </select>
+
+    <select id="getDepts" resultType="com.njusc.npm.metadata.entity.TDeptEntity">
+        select
+        a.id deptId,
+        a.insert_user insertUser,
+        a.dept_name deptName,
+        a.dept_remark deptRemark,
+        a.INSERT_DATE insertTime,
+        a.isdel
+        from  TAB_DEPT a
+        where a.isdel=0
+    </select>
+
+    <select id="getPosts" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TPostEntity">
+        select
+          p.id id, d.dept_name deptName, p.post_name postName
+        from
+        TAB_POST p, TAB_DEPT d
+        where
+        p.isdel = 0
+        AND
+        d.isdel = 0
+        AND
+        p.dept_id = d.id
+        <if test="null != deptName and '' != deptName">
+            and d.dept_name like '%${deptName}%'
+        </if>
+        <if test="null != postName and '' != postName">
+            and p.post_name like '%${postName}%'
+        </if>
+        order by p.INSERT_DATE desc
+    </select>
+
+    <select id="find" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TPostEntity">
+        <include refid="findSql"/>
+    </select>
+
+
+    <select id="findAll" parameterType="java.util.Map" resultType="com.njusc.npm.metadata.entity.TPostEntity">
+        <include refid="findSql"/>
+        order by INSERT_DATE desc
+    </select>
+
+
+    <insert id="save" parameterType="com.njusc.npm.metadata.entity.TPostEntity">
+        insert
+        <include refid="saveSql"/>
+        values (
+        #{ id},
+        #{ deptId},
+        #{ postName},
+        #{ insertTime},
+        #{ insertUser},
+        #{ postTypeId},
+        #{isdel}
+        )
+    </insert>
+
+    <insert id="saveAll" parameterType="java.util.List">
+        insert
+        <include refid="saveSql"/>
+        values
+        <foreach collection="list" item="data" separator=",">
+            (
+            #{data.id},
+            #{data.deptId},
+            #{data.postName},
+            #{data.insertTime},
+            #{data.insertUser},
+            #{data.postTypeId},
+            #{data.isdel}
+            )
+        </foreach>
+
+    </insert>
+
+    <update id="updateAll" parameterType="java.util.List">
+
+        <foreach collection="list" item="data" separator=";">
+            update TAB_POST set
+            dept_id = #{data.deptId},
+            post_name = #{data.postName},
+            post_type_id = #{data.postTypeId},
+            isdel=#{data.isdel}
+            where id = #{data.id}
+        </foreach>
+
+    </update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        <include refid="deleteSql"/>
+        where
+        <!-- 单个参数，使用内置对象判断 -->
+        <if test="null != _parameter and '' != _parameter">
+            id = #{id}
+        </if>
+    </delete>
+
+    <delete id="deleteByDeptId" parameterType="java.lang.String">
+        <include refid="deleteSql"/>
+        where
+        <!-- 单个参数，使用内置对象判断 -->
+        <if test="null != _parameter and '' != _parameter">
+            dept_id = #{id}
+        </if>
+    </delete>
+
+    <delete id="deleteByPostId" parameterType="java.lang.String">
+        <include refid="deleteSql"/>
+        where
+        <!-- 单个参数，使用内置对象判断 -->
+        <if test="null != _parameter and '' != _parameter">
+            id = #{id}
+        </if>
+    </delete>
+
+    <delete id="deleteAll" parameterType="java.lang.String">
+
+        <include refid="deleteSql"/>
+        where
+        id in
+        <foreach close=")" collection="list" item="id" open="(" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+
+    <update id="update" parameterType="com.njusc.npm.metadata.entity.TPostEntity">
+        update  TAB_POST
+        set
+        dept_id = #{deptId},
+        post_name = #{postName},
+        post_type_id = #{postTypeId},
+        isdel=#{isdel}
+        where  id = #{id}
+    </update>
+
+    <sql id="saveSql">
+        into TAB_POST
+        (
+        id,
+        dept_id,
+        post_name,
+        INSERT_DATE,
+        insert_user,
+        post_type_id,
+        isdel
+        )
+    </sql>
+
+    <sql id="deleteSql">
+        update TAB_POST set isdel=1
+    </sql>
+
+    <sql id="findSql">
+        select
+        a.id id,
+        a.dept_id deptId,
+        a.post_name postName,
+        a.INSERT_DATE insertTime,
+        a.insert_user insertUser,
+        a.post_type_id postTypeId,
+        a.isdel
+        from TAB_POST a
+        where a.isdel=0
+        <if test="null != id and '' != id">
+            and a.id = #{id}
+        </if>
+        <if test="null != deptId and '' != deptId">
+            and a.dept_id = #{deptId}
+        </if>
+        <if test="null != postName and '' != postName">
+            and a.post_name = #{postName}
+        </if>
+        <if test="null != postTypeId and '' != postTypeId">
+            and a.post_type_id = #{postTypeId}
+        </if>
+
+    </sql>
+
+
+    <select id="findPosts" resultType="com.njusc.npm.metadata.entity.TPostEntity">
+        <include refid="findPostsSql"></include>
+    </select>
+
+    <sql id="findPostsSql">
+        SELECT ID           as id,
+               DEPT_ID      as deptId,
+               POST_NAME    as postName,
+               POST_TYPE_ID as postTypeId,
+               ISDEL        as isdel,
+               INSERT_USER  as insertUser,
+               INSERT_DATE  as insertDate
+        FROM TAB_POST
+        WHERE ISDEL != 1;
+    </sql>
+
+</mapper>
